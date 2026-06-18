@@ -1,14 +1,51 @@
-# Keeps the SHA-pinned actions in .github/workflows/ fresh (Dependabot bumps the
-# pinned commits and their version comments), and the NuGet package versions in
-# the .csproj files up to date.
+# Dependabot config for infer-dotnet.
+#
+# Keeps two things current:
+#   • SHA-pinned actions in .github/workflows/ (bumps the commit + its version comment)
+#   • NuGet PackageReference versions in the .csproj files
+#
+# Updates are grouped so each week lands as a few PRs instead of one-per-package.
 version: 2
 updates:
+  # ---- GitHub Actions ----
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
       interval: "weekly"
+    groups:
+      github-actions:
+        patterns: ["*"]
 
+  # ---- NuGet (.csproj package references) ----
   - package-ecosystem: "nuget"
     directory: "/"
     schedule:
       interval: "weekly"
+    ignore:
+      # Framework-floor packages: this library multi-targets net8.0/netstandard2.0,
+      # so it must reference the LOWEST compatible version. The declared version is a
+      # floor NuGet imposes on every consumer, so a major bump would force .NET 10-era
+      # assemblies onto apps running on .NET 8 (risking NU1605/NU1608 in their builds)
+      # for no functional gain. Allow patch/minor within the current major (security
+      # fixes); never jump the major.
+      - dependency-name: "Microsoft.Extensions.*"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "Microsoft.Bcl.*"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "System.Text.Json"
+        update-types: ["version-update:semver-major"]
+    groups:
+      # Test + build-only tooling — no effect on the shipped package.
+      test-and-build-tooling:
+        patterns:
+          - "Microsoft.NET.Test.Sdk"
+          - "xunit*"
+          - "coverlet.*"
+          - "Microsoft.SourceLink.*"
+          - "Microsoft.CodeAnalysis.*"
+      # Runtime dependencies that ship in the package (minor/patch only — majors ignored above).
+      runtime-dependencies:
+        patterns:
+          - "System.Text.Json"
+          - "Microsoft.Extensions.*"
+          - "Microsoft.Bcl.*"
