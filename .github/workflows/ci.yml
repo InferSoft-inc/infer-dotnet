@@ -1,0 +1,48 @@
+# Build, test, and format-check on every PR and on main. The library builds both
+# target frameworks (net8.0 + netstandard2.0) in one pass, with warnings-as-errors
+# and the public-API analyzer active.
+#
+# Publishing lives EXCLUSIVELY in release.yml (tag-triggered, trusted publishing
+# registered to that filename); keep this workflow free of any publish/deploy step
+# so PR runs never need credentials or environments.
+#
+# Actions are pinned to commit SHAs (supply-chain hygiene); Dependabot keeps the
+# pins fresh via .github/dependabot.yml.
+name: ci
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  build-test:
+    name: build & test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-dotnet@67a3573c9a986a3f9c594539f4ab511d57bb3ce9 # v4.3.1
+        with:
+          dotnet-version: "8.0.x"
+
+      - name: Restore
+        run: dotnet restore
+
+      - name: Build  # warnings-as-errors + public-API analyzer, both TFMs
+        run: dotnet build --no-restore -c Release
+
+      - name: Test  # includes the examples compile gate
+        run: dotnet test --no-build -c Release
+
+      - name: Format check
+        run: dotnet format --verify-no-changes

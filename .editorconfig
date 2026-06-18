@@ -1,0 +1,49 @@
+root = true
+
+[*]
+charset = utf-8
+end_of_line = lf
+insert_final_newline = true
+indent_style = space
+trim_trailing_whitespace = true
+
+[*.cs]
+indent_size = 4
+# Legacy / low-value rules that fight a modern SDK under warnings-as-errors.
+dotnet_diagnostic.CA1014.severity = none   # "mark assembly CLSCompliant" (legacy)
+dotnet_diagnostic.CA1032.severity = none   # parameterized SDK exceptions omit the standard ctors
+dotnet_diagnostic.CA1812.severity = none   # false positives: types instantiated only via System.Text.Json
+dotnet_diagnostic.CA5394.severity = none   # Random is used only for non-security retry-backoff jitter
+dotnet_diagnostic.CA1056.severity = none   # config surface intentionally uses string URLs (env-var ergonomics)
+# The ThrowIf* helper rules assume net6+ APIs that don't exist on netstandard2.0 (a target).
+dotnet_diagnostic.CA1510.severity = none   # ArgumentNullException.ThrowIfNull
+dotnet_diagnostic.CA1511.severity = none   # ArgumentException.ThrowIfNullOrEmpty
+dotnet_diagnostic.CA1513.severity = none   # ObjectDisposedException.ThrowIf
+dotnet_diagnostic.CA1865.severity = none   # StartsWith(char) overload is net5+, absent on netstandard2.0
+# Extensible-enum members intentionally mirror data-type names (String/Number/Boolean/Date).
+dotnet_diagnostic.CA1716.severity = none   # identifier matches a keyword/type
+dotnet_diagnostic.CA1720.severity = none   # identifier contains a type name
+dotnet_diagnostic.CA2225.severity = none   # operator overloads need a named alternative (the ctor is it)
+dotnet_diagnostic.CA1848.severity = none   # LoggerMessage delegates are overkill for rare diagnostics
+dotnet_diagnostic.CA5351.severity = none   # MD5 is a content-dedup key here, not a security primitive
+dotnet_diagnostic.CA1031.severity = none   # UploadMany intentionally catches-and-wraps any batch failure
+
+# Public-API tracking (Microsoft.CodeAnalysis.PublicApiAnalyzers) is ACTIVE as of the Phase 9
+# API lockdown: PublicAPI.Unshipped.txt is the declared public surface. Adding/removing a public
+# member without updating it fails the build (RS0016/RS0017). The rules keep their package
+# defaults (warning → error via TreatWarningsAsErrors).
+# RS0026 off: the type-distinguished convenience overloads (e.g. Jobs.Wait(long) / Wait(Job))
+# intentionally share an optional-parameter tail — the ergonomic mirror of Python's Job|int.
+dotnet_diagnostic.RS0026.severity = none
+
+# Model DTOs are documented at the type level; their properties mirror documented wire fields,
+# so member-level XML docs there are deferred. The callable API (client, resources, options,
+# exceptions, selectors, enums) enforces CS1591.
+[src/Infersoft/Models/**.cs]
+dotnet_diagnostic.CS1591.severity = none
+
+[*.{csproj,props,targets}]
+indent_size = 2
+
+[*.{json,yml,yaml,md}]
+indent_size = 2

@@ -1,0 +1,617 @@
+#nullable enable
+const Infersoft.DocumentsResource.MaxBatchFiles = 100 -> int
+Infersoft.ApiConnectionException
+Infersoft.ApiConnectionException.ApiConnectionException() -> void
+Infersoft.ApiConnectionException.ApiConnectionException(string! message) -> void
+Infersoft.ApiConnectionException.ApiConnectionException(string! message, System.Exception! innerException) -> void
+Infersoft.ApiTimeoutException
+Infersoft.ApiTimeoutException.ApiTimeoutException() -> void
+Infersoft.ApiTimeoutException.ApiTimeoutException(string! message) -> void
+Infersoft.ApiTimeoutException.ApiTimeoutException(string! message, System.Exception! innerException) -> void
+Infersoft.AssignDocumentsResult
+Infersoft.AssignDocumentsResult.Added.get -> int
+Infersoft.AssignDocumentsResult.Added.init -> void
+Infersoft.AssignDocumentsResult.AssignDocumentsResult() -> void
+Infersoft.AssignDocumentsResult.Matched.get -> int
+Infersoft.AssignDocumentsResult.Matched.init -> void
+Infersoft.AssignDocumentsResult.Project.get -> Infersoft.Project!
+Infersoft.AssignDocumentsResult.Project.init -> void
+Infersoft.AssignDocumentsResult.Skipped.get -> int
+Infersoft.AssignDocumentsResult.Skipped.init -> void
+Infersoft.BadRequestException
+Infersoft.BadRequestException.BadRequestException(int statusCode, string? title = null, string? detail = null, string? type = null, string? instance = null, string? requestId = null, string? rawBody = null) -> void
+Infersoft.BatchUploadResponse
+Infersoft.BatchUploadResponse.BatchUploadResponse() -> void
+Infersoft.BatchUploadResponse.Items.get -> System.Collections.Generic.IReadOnlyList<Infersoft.UploadItem!>!
+Infersoft.BatchUploadResponse.Items.init -> void
+Infersoft.BatchUploadResponse.Project.get -> Infersoft.Project?
+Infersoft.BatchUploadResponse.Project.init -> void
+Infersoft.BatchUploadResponse.Tags.get -> System.Collections.Generic.IReadOnlyList<Infersoft.Tag!>!
+Infersoft.BatchUploadResponse.Tags.init -> void
+Infersoft.BulkDeleteResult
+Infersoft.BulkDeleteResult.BulkDeleteResult() -> void
+Infersoft.BulkDeleteResult.DryRun.get -> bool
+Infersoft.BulkDeleteResult.DryRun.init -> void
+Infersoft.BulkDeleteResult.Matched.get -> int
+Infersoft.BulkDeleteResult.Matched.init -> void
+Infersoft.ConflictException
+Infersoft.ConflictException.ConflictException(int statusCode, string? title = null, string? detail = null, string? type = null, string? instance = null, string? requestId = null, string? rawBody = null) -> void
+Infersoft.CreditsEstimate
+Infersoft.CreditsEstimate.CreditsEstimate() -> void
+Infersoft.CreditsEstimate.Id.get -> string!
+Infersoft.CreditsEstimate.Id.init -> void
+Infersoft.CreditsEstimate.PageCount.get -> int
+Infersoft.CreditsEstimate.PageCount.init -> void
+Infersoft.CreditsEstimate.TotalCredits.get -> int
+Infersoft.CreditsEstimate.TotalCredits.init -> void
+Infersoft.CreditsLimitExceededException
+Infersoft.CreditsLimitExceededException.CreditsLimitExceededException(Infersoft.CreditsEstimate! estimate, int maxCredits) -> void
+Infersoft.CreditsLimitExceededException.Estimate.get -> Infersoft.CreditsEstimate!
+Infersoft.CreditsLimitExceededException.MaxCredits.get -> int
+Infersoft.DataTypeName
+Infersoft.DataTypeName.DataTypeName() -> void
+Infersoft.DataTypeName.DataTypeName(string! value) -> void
+Infersoft.DataTypeName.Equals(Infersoft.DataTypeName other) -> bool
+Infersoft.DataTypeName.Value.get -> string!
+Infersoft.DocumentExtractionResultItem
+Infersoft.DocumentExtractionResultItem.DocumentExtractionResultItem() -> void
+Infersoft.DocumentExtractionResultItem.PromptId.get -> long
+Infersoft.DocumentExtractionResultItem.PromptId.init -> void
+Infersoft.DocumentExtractionResultItem.Value.get -> Infersoft.ExtractionResultValue!
+Infersoft.DocumentExtractionResultItem.Value.init -> void
+Infersoft.DocumentPage
+Infersoft.DocumentPage.DocumentPage() -> void
+Infersoft.DocumentPage.HasMore.get -> bool
+Infersoft.DocumentPage.HasMore.init -> void
+Infersoft.DocumentPage.Items.get -> System.Collections.Generic.IReadOnlyList<Infersoft.DocumentSummary!>!
+Infersoft.DocumentPage.Items.init -> void
+Infersoft.DocumentPage.Page.get -> int
+Infersoft.DocumentPage.Page.init -> void
+Infersoft.DocumentPage.PageSize.get -> int
+Infersoft.DocumentPage.PageSize.init -> void
+Infersoft.DocumentsResource
+Infersoft.DocumentsResource.BulkDelete(Infersoft.Selectors? selectors = null, System.Collections.Generic.IEnumerable<long>? documentIds = null, bool dryRun = false, string? idempotencyKey = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> Infersoft.BulkDeleteResult!
+Infersoft.DocumentsResource.BulkDeleteAsync(Infersoft.Selectors? selectors = null, System.Collections.Generic.IEnumerable<long>? documentIds = null, bool dryRun = false, string? idempotencyKey = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<Infersoft.BulkDeleteResult!>!
+Infersoft.DocumentsResource.Delete(long documentId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> void
+Infersoft.DocumentsResource.DeleteAsync(long documentId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task!
+Infersoft.DocumentsResource.Download(long documentId, string! destDir, string? fileName = null, bool overwrite = false, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> string!
+Infersoft.DocumentsResource.DownloadAsync(long documentId, string! destDir, string? fileName = null, bool overwrite = false, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<string!>!
+Infersoft.DocumentsResource.DownloadUrl(long documentId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> Infersoft.DownloadResponse!
+Infersoft.DocumentsResource.DownloadUrlAsync(long documentId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<Infersoft.DownloadResponse!>!
+Infersoft.DocumentsResource.Get(long documentId, System.Collections.Generic.IEnumerable<long>? promptIds = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> Infersoft.DocumentSummary!
+Infersoft.DocumentsResource.GetAsync(long documentId, System.Collections.Generic.IEnumerable<long>? promptIds = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<Infersoft.DocumentSummary!>!
+Infersoft.DocumentsResource.GetValues(System.Collections.Generic.IEnumerable<long>! prompts, Infersoft.Selectors? selectors = null, System.Collections.Generic.IEnumerable<long>? documentIds = null, Infersoft.ExtractionKey keyBy = Infersoft.ExtractionKey.Name, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Collections.Generic.IReadOnlyDictionary<long, System.Collections.Generic.IReadOnlyDictionary<object!, System.Text.Json.JsonElement?>!>!
+Infersoft.DocumentsResource.GetValuesAsync(System.Collections.Generic.IEnumerable<long>! prompts, Infersoft.Selectors? selectors = null, System.Collections.Generic.IEnumerable<long>? documentIds = null, Infersoft.ExtractionKey keyBy = Infersoft.ExtractionKey.Name, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<System.Collections.Generic.IReadOnlyDictionary<long, System.Collections.Generic.IReadOnlyDictionary<object!, System.Text.Json.JsonElement?>!>!>!
+Infersoft.DocumentsResource.Iterate(Infersoft.Selectors? selectors = null, System.Collections.Generic.IEnumerable<long>? documentIds = null, System.Collections.Generic.IEnumerable<long>? prompts = null, int pageSize = 50, string! orderBy = "id", string! orderDir = "asc", System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Collections.Generic.IEnumerable<Infersoft.DocumentSummary!>!
+Infersoft.DocumentsResource.IterateAsync(Infersoft.Selectors? selectors = null, System.Collections.Generic.IEnumerable<long>? documentIds = null, System.Collections.Generic.IEnumerable<long>? prompts = null, int pageSize = 50, string! orderBy = "id", string! orderDir = "asc", System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Collections.Generic.IAsyncEnumerable<Infersoft.DocumentSummary!>!
+Infersoft.DocumentsResource.MoveToFolder(Infersoft.Selectors? selectors = null, System.Collections.Generic.IEnumerable<long>? documentIds = null, long? targetFolderId = null, string? idempotencyKey = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> Infersoft.MoveResult!
+Infersoft.DocumentsResource.MoveToFolderAsync(Infersoft.Selectors? selectors = null, System.Collections.Generic.IEnumerable<long>? documentIds = null, long? targetFolderId = null, string? idempotencyKey = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<Infersoft.MoveResult!>!
+Infersoft.DocumentsResource.Search(Infersoft.Selectors? selectors = null, System.Collections.Generic.IEnumerable<long>? documentIds = null, System.Collections.Generic.IEnumerable<long>? prompts = null, int page = 1, int pageSize = 50, string! orderBy = "id", string! orderDir = "asc", System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> Infersoft.DocumentPage!
+Infersoft.DocumentsResource.SearchAsync(Infersoft.Selectors? selectors = null, System.Collections.Generic.IEnumerable<long>? documentIds = null, System.Collections.Generic.IEnumerable<long>? prompts = null, int page = 1, int pageSize = 50, string! orderBy = "id", string! orderDir = "asc", System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<Infersoft.DocumentPage!>!
+Infersoft.DocumentsResource.Upload(System.Collections.Generic.IEnumerable<string!>! files, bool flatten = true, long? projectId = null, string? projectName = null, System.Collections.Generic.IEnumerable<long>? tagIds = null, System.Collections.Generic.IEnumerable<string!>? tagNames = null, string? contentType = null, Infersoft.OnDuplicate onDuplicate = Infersoft.OnDuplicate.Allow, string? idempotencyKey = null, bool wait = false, System.TimeSpan? maxWait = null, System.TimeSpan? pollInterval = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> Infersoft.UploadResult!
+Infersoft.DocumentsResource.UploadAsync(System.Collections.Generic.IEnumerable<string!>! files, bool flatten = true, long? projectId = null, string? projectName = null, System.Collections.Generic.IEnumerable<long>? tagIds = null, System.Collections.Generic.IEnumerable<string!>? tagNames = null, string? contentType = null, Infersoft.OnDuplicate onDuplicate = Infersoft.OnDuplicate.Allow, string? idempotencyKey = null, bool wait = false, System.TimeSpan? maxWait = null, System.TimeSpan? pollInterval = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<Infersoft.UploadResult!>!
+Infersoft.DocumentsResource.UploadMany(System.Collections.Generic.IEnumerable<string!>! files, bool flatten = true, int batchSize = 100, long? projectId = null, string? projectName = null, System.Collections.Generic.IEnumerable<long>? tagIds = null, System.Collections.Generic.IEnumerable<string!>? tagNames = null, string? contentType = null, Infersoft.OnDuplicate onDuplicate = Infersoft.OnDuplicate.Allow, string? idempotencyKey = null, System.Action<Infersoft.UploadResult!>? onBatch = null, bool wait = false, System.TimeSpan? maxWait = null, System.TimeSpan? pollInterval = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> Infersoft.UploadResult!
+Infersoft.DocumentsResource.UploadManyAsync(System.Collections.Generic.IEnumerable<string!>! files, bool flatten = true, int batchSize = 100, long? projectId = null, string? projectName = null, System.Collections.Generic.IEnumerable<long>? tagIds = null, System.Collections.Generic.IEnumerable<string!>? tagNames = null, string? contentType = null, Infersoft.OnDuplicate onDuplicate = Infersoft.OnDuplicate.Allow, string? idempotencyKey = null, System.Action<Infersoft.UploadResult!>? onBatch = null, bool wait = false, System.TimeSpan? maxWait = null, System.TimeSpan? pollInterval = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<Infersoft.UploadResult!>!
+Infersoft.DocumentsResource.UploadManyFromDirectory(string! directory, string! searchPattern = "*", bool flatten = true, int batchSize = 100, long? projectId = null, string? projectName = null, System.Collections.Generic.IEnumerable<long>? tagIds = null, System.Collections.Generic.IEnumerable<string!>? tagNames = null, string? contentType = null, Infersoft.OnDuplicate onDuplicate = Infersoft.OnDuplicate.Allow, string? idempotencyKey = null, System.Action<Infersoft.UploadResult!>? onBatch = null, bool wait = false, System.TimeSpan? maxWait = null, System.TimeSpan? pollInterval = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> Infersoft.UploadResult!
+Infersoft.DocumentsResource.UploadManyFromDirectoryAsync(string! directory, string! searchPattern = "*", bool flatten = true, int batchSize = 100, long? projectId = null, string? projectName = null, System.Collections.Generic.IEnumerable<long>? tagIds = null, System.Collections.Generic.IEnumerable<string!>? tagNames = null, string? contentType = null, Infersoft.OnDuplicate onDuplicate = Infersoft.OnDuplicate.Allow, string? idempotencyKey = null, System.Action<Infersoft.UploadResult!>? onBatch = null, bool wait = false, System.TimeSpan? maxWait = null, System.TimeSpan? pollInterval = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<Infersoft.UploadResult!>!
+Infersoft.DocumentsResource.WaitUntilReady(System.Collections.Generic.IEnumerable<long>! documentIds, System.TimeSpan? maxWait = null, System.TimeSpan? pollInterval = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Collections.Generic.IReadOnlyList<Infersoft.DocumentSummary!>!
+Infersoft.DocumentsResource.WaitUntilReadyAsync(System.Collections.Generic.IEnumerable<long>! documentIds, System.TimeSpan? maxWait = null, System.TimeSpan? pollInterval = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<System.Collections.Generic.List<Infersoft.DocumentSummary!>!>!
+Infersoft.DocumentStatus
+Infersoft.DocumentStatus.DocumentStatus() -> void
+Infersoft.DocumentStatus.DocumentStatus(string! value) -> void
+Infersoft.DocumentStatus.Equals(Infersoft.DocumentStatus other) -> bool
+Infersoft.DocumentStatus.Value.get -> string!
+Infersoft.DocumentSummary
+Infersoft.DocumentSummary.CreatedAt.get -> System.DateTimeOffset
+Infersoft.DocumentSummary.CreatedAt.init -> void
+Infersoft.DocumentSummary.DocumentClass.get -> string?
+Infersoft.DocumentSummary.DocumentClass.init -> void
+Infersoft.DocumentSummary.DocumentSubclass.get -> string?
+Infersoft.DocumentSummary.DocumentSubclass.init -> void
+Infersoft.DocumentSummary.DocumentSummary() -> void
+Infersoft.DocumentSummary.ExtractionResults.get -> System.Collections.Generic.IReadOnlyList<Infersoft.DocumentExtractionResultItem!>?
+Infersoft.DocumentSummary.ExtractionResults.init -> void
+Infersoft.DocumentSummary.Extractions.get -> System.Collections.Generic.IReadOnlyDictionary<long, Infersoft.ExtractionResultValue!>!
+Infersoft.DocumentSummary.FileSize.get -> long?
+Infersoft.DocumentSummary.FileSize.init -> void
+Infersoft.DocumentSummary.FolderId.get -> long?
+Infersoft.DocumentSummary.FolderId.init -> void
+Infersoft.DocumentSummary.HasActiveWorkflow.get -> bool
+Infersoft.DocumentSummary.HasActiveWorkflow.init -> void
+Infersoft.DocumentSummary.Id.get -> long
+Infersoft.DocumentSummary.Id.init -> void
+Infersoft.DocumentSummary.IsValid.get -> bool
+Infersoft.DocumentSummary.IsValid.init -> void
+Infersoft.DocumentSummary.Name.get -> string!
+Infersoft.DocumentSummary.Name.init -> void
+Infersoft.DocumentSummary.OrganizationId.get -> string!
+Infersoft.DocumentSummary.OrganizationId.init -> void
+Infersoft.DocumentSummary.PageCount.get -> int?
+Infersoft.DocumentSummary.PageCount.init -> void
+Infersoft.DocumentSummary.SourceDocument.get -> long?
+Infersoft.DocumentSummary.SourceDocument.init -> void
+Infersoft.DocumentSummary.Status.get -> Infersoft.DocumentStatus
+Infersoft.DocumentSummary.Status.init -> void
+Infersoft.DownloadResponse
+Infersoft.DownloadResponse.DownloadResponse() -> void
+Infersoft.DownloadResponse.ExpiresAt.get -> System.DateTimeOffset
+Infersoft.DownloadResponse.ExpiresAt.init -> void
+Infersoft.DownloadResponse.Url.get -> string!
+Infersoft.DownloadResponse.Url.init -> void
+Infersoft.DownloadTransferException
+Infersoft.DownloadTransferException.DownloadTransferException(string! message, int? statusCode = null, string? requestId = null) -> void
+Infersoft.DownloadTransferException.DownloadTransferException(string! message, System.Exception! innerException) -> void
+Infersoft.DownloadTransferException.RequestId.get -> string?
+Infersoft.DownloadTransferException.StatusCode.get -> int?
+Infersoft.ExtractException
+Infersoft.ExtractException.ExtractException(string! message, Infersoft.Job? job = null, Infersoft.UploadResult? upload = null) -> void
+Infersoft.ExtractException.ExtractException(string! message, System.Exception! innerException) -> void
+Infersoft.ExtractException.Job.get -> Infersoft.Job?
+Infersoft.ExtractException.Upload.get -> Infersoft.UploadResult?
+Infersoft.ExtractionKey
+Infersoft.ExtractionKey.Name = 0 -> Infersoft.ExtractionKey
+Infersoft.ExtractionKey.PromptId = 1 -> Infersoft.ExtractionKey
+Infersoft.ExtractionResultValue
+Infersoft.ExtractionResultValue.DataType.get -> Infersoft.DataTypeName?
+Infersoft.ExtractionResultValue.DataType.init -> void
+Infersoft.ExtractionResultValue.ExtractionResultValue() -> void
+Infersoft.ExtractionResultValue.Issues.get -> System.Collections.Generic.IReadOnlyList<string!>!
+Infersoft.ExtractionResultValue.Issues.init -> void
+Infersoft.ExtractionResultValue.Name.get -> string?
+Infersoft.ExtractionResultValue.Name.init -> void
+Infersoft.ExtractionResultValue.ParsedValue.get -> System.Text.Json.JsonElement?
+Infersoft.ExtractionResultValue.ParsedValue.init -> void
+Infersoft.ExtractionResultValue.RawValue.get -> string?
+Infersoft.ExtractionResultValue.RawValue.init -> void
+Infersoft.ExtractionResultValue.Readability.get -> double?
+Infersoft.ExtractionResultValue.Readability.init -> void
+Infersoft.ExtractionResultValue.Traceback.get -> System.Collections.Generic.IReadOnlyList<Infersoft.ExtractionTracebackItem!>!
+Infersoft.ExtractionResultValue.Traceback.init -> void
+Infersoft.ExtractionTracebackBBox
+Infersoft.ExtractionTracebackBBox.ExtractionTracebackBBox() -> void
+Infersoft.ExtractionTracebackBBox.Height.get -> double
+Infersoft.ExtractionTracebackBBox.Height.init -> void
+Infersoft.ExtractionTracebackBBox.Left.get -> double
+Infersoft.ExtractionTracebackBBox.Left.init -> void
+Infersoft.ExtractionTracebackBBox.Top.get -> double
+Infersoft.ExtractionTracebackBBox.Top.init -> void
+Infersoft.ExtractionTracebackBBox.Width.get -> double
+Infersoft.ExtractionTracebackBBox.Width.init -> void
+Infersoft.ExtractionTracebackItem
+Infersoft.ExtractionTracebackItem.Bbox.get -> Infersoft.ExtractionTracebackBBox?
+Infersoft.ExtractionTracebackItem.Bbox.init -> void
+Infersoft.ExtractionTracebackItem.Confidence.get -> double
+Infersoft.ExtractionTracebackItem.Confidence.init -> void
+Infersoft.ExtractionTracebackItem.ExtractionTracebackItem() -> void
+Infersoft.ExtractionTracebackItem.Issues.get -> System.Collections.Generic.IReadOnlyList<string!>!
+Infersoft.ExtractionTracebackItem.Issues.init -> void
+Infersoft.ExtractionTracebackItem.Page.get -> int
+Infersoft.ExtractionTracebackItem.Page.init -> void
+Infersoft.ExtractResult
+Infersoft.ExtractResult.Documents.get -> System.Collections.Generic.IReadOnlyList<Infersoft.DocumentSummary!>!
+Infersoft.ExtractResult.Job.get -> Infersoft.Job!
+Infersoft.ExtractResult.Upload.get -> Infersoft.UploadResult?
+Infersoft.ExtractResult.Values.get -> System.Collections.Generic.IReadOnlyDictionary<long, System.Collections.Generic.IReadOnlyDictionary<object!, System.Text.Json.JsonElement?>!>!
+Infersoft.FileOutcome
+Infersoft.FileOutcome.DocumentId.get -> long?
+Infersoft.FileOutcome.Duplicates.get -> System.Collections.Generic.IReadOnlyList<Infersoft.UploadDuplicate!>!
+Infersoft.FileOutcome.Error.get -> Infersoft.UploadErrorInfo?
+Infersoft.FileOutcome.FileName.get -> string!
+Infersoft.FileOutcome.FileOutcome() -> void
+Infersoft.FileOutcome.SkippedAsDuplicate.get -> bool
+Infersoft.FileOutcome.Uploaded.get -> bool
+Infersoft.Folder
+Infersoft.Folder.CreatedAt.get -> System.DateTimeOffset
+Infersoft.Folder.CreatedAt.init -> void
+Infersoft.Folder.Folder() -> void
+Infersoft.Folder.HasChildren.get -> bool
+Infersoft.Folder.HasChildren.init -> void
+Infersoft.Folder.Id.get -> long
+Infersoft.Folder.Id.init -> void
+Infersoft.Folder.Name.get -> string!
+Infersoft.Folder.Name.init -> void
+Infersoft.Folder.OrganizationId.get -> string!
+Infersoft.Folder.OrganizationId.init -> void
+Infersoft.Folder.ParentId.get -> long?
+Infersoft.Folder.ParentId.init -> void
+Infersoft.Folder.UpdatedAt.get -> System.DateTimeOffset
+Infersoft.Folder.UpdatedAt.init -> void
+Infersoft.FolderBulkDeleteResult
+Infersoft.FolderBulkDeleteResult.Deleted.get -> int
+Infersoft.FolderBulkDeleteResult.Deleted.init -> void
+Infersoft.FolderBulkDeleteResult.DeletedFolderIds.get -> System.Collections.Generic.IReadOnlyList<long>!
+Infersoft.FolderBulkDeleteResult.DeletedFolderIds.init -> void
+Infersoft.FolderBulkDeleteResult.FolderBulkDeleteResult() -> void
+Infersoft.FolderBulkDeleteResult.NotFoundFolderIds.get -> System.Collections.Generic.IReadOnlyList<long>!
+Infersoft.FolderBulkDeleteResult.NotFoundFolderIds.init -> void
+Infersoft.FolderBulkDeleteResult.Requested.get -> int
+Infersoft.FolderBulkDeleteResult.Requested.init -> void
+Infersoft.FolderMoveResult
+Infersoft.FolderMoveResult.FolderMoveResult() -> void
+Infersoft.FolderMoveResult.Matched.get -> int
+Infersoft.FolderMoveResult.Matched.init -> void
+Infersoft.FolderMoveResult.MovedIds.get -> System.Collections.Generic.IReadOnlyList<long>!
+Infersoft.FolderMoveResult.MovedIds.init -> void
+Infersoft.FolderMoveResult.SkippedAlreadyInTargetIds.get -> System.Collections.Generic.IReadOnlyList<long>!
+Infersoft.FolderMoveResult.SkippedAlreadyInTargetIds.init -> void
+Infersoft.FolderMoveResult.SkippedDuplicateInSelectionIds.get -> System.Collections.Generic.IReadOnlyList<long>!
+Infersoft.FolderMoveResult.SkippedDuplicateInSelectionIds.init -> void
+Infersoft.FolderMoveResult.SkippedInvalidParentIds.get -> System.Collections.Generic.IReadOnlyList<long>!
+Infersoft.FolderMoveResult.SkippedInvalidParentIds.init -> void
+Infersoft.FolderMoveResult.SkippedNameConflictIds.get -> System.Collections.Generic.IReadOnlyList<long>!
+Infersoft.FolderMoveResult.SkippedNameConflictIds.init -> void
+Infersoft.FolderPage
+Infersoft.FolderPage.FolderPage() -> void
+Infersoft.FolderPage.HasMore.get -> bool
+Infersoft.FolderPage.HasMore.init -> void
+Infersoft.FolderPage.Items.get -> System.Collections.Generic.IReadOnlyList<Infersoft.Folder!>!
+Infersoft.FolderPage.Items.init -> void
+Infersoft.FolderPage.Page.get -> int
+Infersoft.FolderPage.Page.init -> void
+Infersoft.FolderPage.PageSize.get -> int
+Infersoft.FolderPage.PageSize.init -> void
+Infersoft.FolderPathResult
+Infersoft.FolderPathResult.FolderPathResult() -> void
+Infersoft.FolderPathResult.Folders.get -> System.Collections.Generic.IReadOnlyList<Infersoft.Folder!>!
+Infersoft.FolderPathResult.Folders.init -> void
+Infersoft.FolderPathsResult
+Infersoft.FolderPathsResult.FolderPathsResult() -> void
+Infersoft.FolderPathsResult.Results.get -> System.Collections.Generic.IReadOnlyList<Infersoft.FolderPathResult!>!
+Infersoft.FolderPathsResult.Results.init -> void
+Infersoft.FoldersResource
+Infersoft.FoldersResource.BulkDelete(System.Collections.Generic.IEnumerable<long>! folderIds, string? idempotencyKey = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> Infersoft.FolderBulkDeleteResult!
+Infersoft.FoldersResource.BulkDeleteAsync(System.Collections.Generic.IEnumerable<long>! folderIds, string? idempotencyKey = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<Infersoft.FolderBulkDeleteResult!>!
+Infersoft.FoldersResource.Create(string! name, long? parentId = null, string? idempotencyKey = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> Infersoft.Folder!
+Infersoft.FoldersResource.CreateAsync(string! name, long? parentId = null, string? idempotencyKey = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<Infersoft.Folder!>!
+Infersoft.FoldersResource.EnsurePath(string! path, long? parentId = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> Infersoft.Folder!
+Infersoft.FoldersResource.EnsurePathAsync(string! path, long? parentId = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<Infersoft.Folder!>!
+Infersoft.FoldersResource.Get(long folderId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> Infersoft.Folder!
+Infersoft.FoldersResource.GetAsync(long folderId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<Infersoft.Folder!>!
+Infersoft.FoldersResource.Iterate(long? parentId = null, int pageSize = 50, string! orderBy = "id", string! orderDir = "asc", System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Collections.Generic.IEnumerable<Infersoft.Folder!>!
+Infersoft.FoldersResource.IterateAsync(long? parentId = null, int pageSize = 50, string! orderBy = "id", string! orderDir = "asc", System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Collections.Generic.IAsyncEnumerable<Infersoft.Folder!>!
+Infersoft.FoldersResource.Move(System.Collections.Generic.IEnumerable<long>! folderIds, long? targetParentId = null, string? idempotencyKey = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> Infersoft.FolderMoveResult!
+Infersoft.FoldersResource.MoveAsync(System.Collections.Generic.IEnumerable<long>! folderIds, long? targetParentId = null, string? idempotencyKey = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<Infersoft.FolderMoveResult!>!
+Infersoft.FoldersResource.Rename(long folderId, string! name, string? idempotencyKey = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> Infersoft.Folder!
+Infersoft.FoldersResource.RenameAsync(long folderId, string! name, string? idempotencyKey = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<Infersoft.Folder!>!
+Infersoft.FoldersResource.ResolvePaths(System.Collections.Generic.IEnumerable<string!>! paths, long? parentId = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> Infersoft.FolderPathsResult!
+Infersoft.FoldersResource.ResolvePathsAsync(System.Collections.Generic.IEnumerable<string!>! paths, long? parentId = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<Infersoft.FolderPathsResult!>!
+Infersoft.FoldersResource.Search(long? parentId = null, int page = 1, int pageSize = 50, string! orderBy = "id", string! orderDir = "asc", System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> Infersoft.FolderPage!
+Infersoft.FoldersResource.SearchAsync(long? parentId = null, int page = 1, int pageSize = 50, string! orderBy = "id", string! orderDir = "asc", System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<Infersoft.FolderPage!>!
+Infersoft.ForbiddenException
+Infersoft.ForbiddenException.ForbiddenException(int statusCode, string? title = null, string? detail = null, string? type = null, string? instance = null, string? requestId = null, string? rawBody = null) -> void
+Infersoft.InfersoftApiException
+Infersoft.InfersoftApiException.Detail.get -> string?
+Infersoft.InfersoftApiException.InfersoftApiException(int statusCode, string? title = null, string? detail = null, string? type = null, string? instance = null, string? requestId = null, string? rawBody = null) -> void
+Infersoft.InfersoftApiException.Instance.get -> string?
+Infersoft.InfersoftApiException.RawBody.get -> string?
+Infersoft.InfersoftApiException.RequestId.get -> string?
+Infersoft.InfersoftApiException.StatusCode.get -> int
+Infersoft.InfersoftApiException.Title.get -> string?
+Infersoft.InfersoftApiException.Type.get -> string?
+Infersoft.InfersoftAuthenticationException
+Infersoft.InfersoftAuthenticationException.InfersoftAuthenticationException() -> void
+Infersoft.InfersoftAuthenticationException.InfersoftAuthenticationException(string! message) -> void
+Infersoft.InfersoftAuthenticationException.InfersoftAuthenticationException(string! message, System.Exception! innerException) -> void
+Infersoft.InfersoftClient
+Infersoft.InfersoftClient.Dispose() -> void
+Infersoft.InfersoftClient.DisposeAsync() -> System.Threading.Tasks.ValueTask
+Infersoft.InfersoftClient.Documents.get -> Infersoft.DocumentsResource!
+Infersoft.InfersoftClient.Extract(System.Collections.Generic.IEnumerable<string!>? files = null, System.Collections.Generic.IEnumerable<long>? documentIds = null, Infersoft.Selectors? selectors = null, System.Collections.Generic.IEnumerable<long>? prompts = null, long? projectId = null, string? projectName = null, bool flatten = true, int? maxCredits = null, Infersoft.ExtractionKey keyBy = Infersoft.ExtractionKey.Name, bool raiseOnFailure = true, System.TimeSpan? maxWait = null, System.TimeSpan? pollInterval = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> Infersoft.ExtractResult!
+Infersoft.InfersoftClient.ExtractAsync(System.Collections.Generic.IEnumerable<string!>? files = null, System.Collections.Generic.IEnumerable<long>? documentIds = null, Infersoft.Selectors? selectors = null, System.Collections.Generic.IEnumerable<long>? prompts = null, long? projectId = null, string? projectName = null, bool flatten = true, int? maxCredits = null, Infersoft.ExtractionKey keyBy = Infersoft.ExtractionKey.Name, bool raiseOnFailure = true, System.TimeSpan? maxWait = null, System.TimeSpan? pollInterval = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<Infersoft.ExtractResult!>!
+Infersoft.InfersoftClient.Folders.get -> Infersoft.FoldersResource!
+Infersoft.InfersoftClient.InfersoftClient(Infersoft.InfersoftClientOptions! options) -> void
+Infersoft.InfersoftClient.InfersoftClient(string! clientId, string! clientSecret) -> void
+Infersoft.InfersoftClient.Jobs.get -> Infersoft.JobsResource!
+Infersoft.InfersoftClient.Projects.get -> Infersoft.ProjectsResource!
+Infersoft.InfersoftClient.Prompts.get -> Infersoft.PromptsResource!
+Infersoft.InfersoftClient.WithOptions(System.TimeSpan? timeout = null, int? maxRetries = null, int? uploadMaxRetries = null) -> Infersoft.InfersoftClient!
+Infersoft.InfersoftClientOptions
+Infersoft.InfersoftClientOptions.Audience.get -> string?
+Infersoft.InfersoftClientOptions.Audience.set -> void
+Infersoft.InfersoftClientOptions.BaseUrl.get -> string?
+Infersoft.InfersoftClientOptions.BaseUrl.set -> void
+Infersoft.InfersoftClientOptions.ClientId.get -> string?
+Infersoft.InfersoftClientOptions.ClientId.set -> void
+Infersoft.InfersoftClientOptions.ClientSecret.get -> string?
+Infersoft.InfersoftClientOptions.ClientSecret.set -> void
+Infersoft.InfersoftClientOptions.InfersoftClientOptions() -> void
+Infersoft.InfersoftClientOptions.LoggerFactory.get -> Microsoft.Extensions.Logging.ILoggerFactory?
+Infersoft.InfersoftClientOptions.LoggerFactory.set -> void
+Infersoft.InfersoftClientOptions.MaxRetries.get -> int
+Infersoft.InfersoftClientOptions.MaxRetries.set -> void
+Infersoft.InfersoftClientOptions.Scope.get -> string?
+Infersoft.InfersoftClientOptions.Scope.set -> void
+Infersoft.InfersoftClientOptions.Timeout.get -> System.TimeSpan
+Infersoft.InfersoftClientOptions.Timeout.set -> void
+Infersoft.InfersoftClientOptions.TokenUrl.get -> string?
+Infersoft.InfersoftClientOptions.TokenUrl.set -> void
+Infersoft.InfersoftClientOptions.Transport.get -> System.Net.Http.HttpMessageHandler?
+Infersoft.InfersoftClientOptions.Transport.set -> void
+Infersoft.InfersoftClientOptions.UploadMaxRetries.get -> int?
+Infersoft.InfersoftClientOptions.UploadMaxRetries.set -> void
+Infersoft.InfersoftClientOptions.UploadTimeout.get -> System.TimeSpan
+Infersoft.InfersoftClientOptions.UploadTimeout.set -> void
+Infersoft.InfersoftException
+Infersoft.InfersoftException.InfersoftException() -> void
+Infersoft.InfersoftException.InfersoftException(string! message) -> void
+Infersoft.InfersoftException.InfersoftException(string! message, System.Exception! innerException) -> void
+Infersoft.InfersoftModel
+Infersoft.InfersoftModel.AdditionalData.get -> System.Collections.Generic.IDictionary<string!, System.Text.Json.JsonElement>?
+Infersoft.InfersoftModel.AdditionalData.set -> void
+Infersoft.InfersoftModel.InfersoftModel() -> void
+Infersoft.Job
+Infersoft.Job.CompletedDocs.get -> int
+Infersoft.Job.CompletedDocs.init -> void
+Infersoft.Job.CreatedAt.get -> System.DateTimeOffset
+Infersoft.Job.CreatedAt.init -> void
+Infersoft.Job.Credits.get -> int?
+Infersoft.Job.Credits.init -> void
+Infersoft.Job.ErrorCount.get -> int
+Infersoft.Job.ErrorCount.init -> void
+Infersoft.Job.Id.get -> long
+Infersoft.Job.Id.init -> void
+Infersoft.Job.Job() -> void
+Infersoft.Job.OrganizationId.get -> string!
+Infersoft.Job.OrganizationId.init -> void
+Infersoft.Job.OrganizationName.get -> string!
+Infersoft.Job.OrganizationName.init -> void
+Infersoft.Job.ProjectId.get -> long?
+Infersoft.Job.ProjectId.init -> void
+Infersoft.Job.Selectors.get -> System.Text.Json.JsonElement?
+Infersoft.Job.Selectors.init -> void
+Infersoft.Job.Stages.get -> System.Collections.Generic.IReadOnlyList<string!>!
+Infersoft.Job.Stages.init -> void
+Infersoft.Job.Status.get -> Infersoft.JobStatus
+Infersoft.Job.Status.init -> void
+Infersoft.Job.TotalDocs.get -> int
+Infersoft.Job.TotalDocs.init -> void
+Infersoft.JobPage
+Infersoft.JobPage.HasMore.get -> bool
+Infersoft.JobPage.HasMore.init -> void
+Infersoft.JobPage.Items.get -> System.Collections.Generic.IReadOnlyList<Infersoft.Job!>!
+Infersoft.JobPage.Items.init -> void
+Infersoft.JobPage.JobPage() -> void
+Infersoft.JobPage.Page.get -> int
+Infersoft.JobPage.Page.init -> void
+Infersoft.JobPage.PageSize.get -> int
+Infersoft.JobPage.PageSize.init -> void
+Infersoft.JobsResource
+Infersoft.JobsResource.Estimate(string! step, Infersoft.Selectors? selectors = null, System.Collections.Generic.IEnumerable<long>? documentIds = null, System.Collections.Generic.IEnumerable<long>? prompts = null, bool synchronous = false, string? idempotencyKey = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> Infersoft.CreditsEstimate!
+Infersoft.JobsResource.EstimateAsync(string! step, Infersoft.Selectors? selectors = null, System.Collections.Generic.IEnumerable<long>? documentIds = null, System.Collections.Generic.IEnumerable<long>? prompts = null, bool synchronous = false, string? idempotencyKey = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<Infersoft.CreditsEstimate!>!
+Infersoft.JobsResource.Get(long jobId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> Infersoft.Job!
+Infersoft.JobsResource.GetAsync(long jobId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<Infersoft.Job!>!
+Infersoft.JobsResource.Iterate(System.Collections.Generic.IEnumerable<string!>? statuses = null, string? createdFrom = null, string? createdTo = null, int pageSize = 50, string! orderBy = "id", string! orderDir = "desc", System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Collections.Generic.IEnumerable<Infersoft.Job!>!
+Infersoft.JobsResource.IterateAsync(System.Collections.Generic.IEnumerable<string!>? statuses = null, string? createdFrom = null, string? createdTo = null, int pageSize = 50, string! orderBy = "id", string! orderDir = "desc", System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Collections.Generic.IAsyncEnumerable<Infersoft.Job!>!
+Infersoft.JobsResource.Results(Infersoft.Job! job, System.Collections.Generic.IEnumerable<long>? prompts = null, int pageSize = 50, string! orderBy = "id", string! orderDir = "asc", System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Collections.Generic.IEnumerable<Infersoft.DocumentSummary!>!
+Infersoft.JobsResource.Results(long jobId, System.Collections.Generic.IEnumerable<long>? prompts = null, int pageSize = 50, string! orderBy = "id", string! orderDir = "asc", System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Collections.Generic.IEnumerable<Infersoft.DocumentSummary!>!
+Infersoft.JobsResource.ResultsAsync(Infersoft.Job! job, System.Collections.Generic.IEnumerable<long>? prompts = null, int pageSize = 50, string! orderBy = "id", string! orderDir = "asc", System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Collections.Generic.IAsyncEnumerable<Infersoft.DocumentSummary!>!
+Infersoft.JobsResource.ResultsAsync(long jobId, System.Collections.Generic.IEnumerable<long>? prompts = null, int pageSize = 50, string! orderBy = "id", string! orderDir = "asc", System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Collections.Generic.IAsyncEnumerable<Infersoft.DocumentSummary!>!
+Infersoft.JobsResource.Run(string! step, Infersoft.Selectors? selectors = null, System.Collections.Generic.IEnumerable<long>? documentIds = null, System.Collections.Generic.IEnumerable<long>? prompts = null, bool synchronous = false, long? projectId = null, int? maxCredits = null, bool wait = false, System.TimeSpan? maxWait = null, System.TimeSpan? pollInterval = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> Infersoft.Job!
+Infersoft.JobsResource.RunAsync(string! step, Infersoft.Selectors? selectors = null, System.Collections.Generic.IEnumerable<long>? documentIds = null, System.Collections.Generic.IEnumerable<long>? prompts = null, bool synchronous = false, long? projectId = null, int? maxCredits = null, bool wait = false, System.TimeSpan? maxWait = null, System.TimeSpan? pollInterval = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<Infersoft.Job!>!
+Infersoft.JobsResource.Search(System.Collections.Generic.IEnumerable<string!>? statuses = null, string? createdFrom = null, string? createdTo = null, int page = 1, int pageSize = 50, string! orderBy = "id", string! orderDir = "desc", System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> Infersoft.JobPage!
+Infersoft.JobsResource.SearchAsync(System.Collections.Generic.IEnumerable<string!>? statuses = null, string? createdFrom = null, string? createdTo = null, int page = 1, int pageSize = 50, string! orderBy = "id", string! orderDir = "desc", System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<Infersoft.JobPage!>!
+Infersoft.JobsResource.Start(string! creditsId, long? projectId = null, string? idempotencyKey = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> Infersoft.Job!
+Infersoft.JobsResource.StartAsync(string! creditsId, long? projectId = null, string? idempotencyKey = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<Infersoft.Job!>!
+Infersoft.JobsResource.Wait(Infersoft.Job! job, System.TimeSpan? maxWait = null, System.TimeSpan? pollInterval = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> Infersoft.Job!
+Infersoft.JobsResource.Wait(long jobId, System.TimeSpan? maxWait = null, System.TimeSpan? pollInterval = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> Infersoft.Job!
+Infersoft.JobsResource.WaitAsync(Infersoft.Job! job, System.TimeSpan? maxWait = null, System.TimeSpan? pollInterval = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<Infersoft.Job!>!
+Infersoft.JobsResource.WaitAsync(long jobId, System.TimeSpan? maxWait = null, System.TimeSpan? pollInterval = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<Infersoft.Job!>!
+Infersoft.JobStatus
+Infersoft.JobStatus.Equals(Infersoft.JobStatus other) -> bool
+Infersoft.JobStatus.JobStatus() -> void
+Infersoft.JobStatus.JobStatus(string! value) -> void
+Infersoft.JobStatus.Value.get -> string!
+Infersoft.MoveResult
+Infersoft.MoveResult.Matched.get -> int
+Infersoft.MoveResult.Matched.init -> void
+Infersoft.MoveResult.Moved.get -> int
+Infersoft.MoveResult.Moved.init -> void
+Infersoft.MoveResult.MoveResult() -> void
+Infersoft.MoveResult.Skipped.get -> int
+Infersoft.MoveResult.Skipped.init -> void
+Infersoft.NotFoundException
+Infersoft.NotFoundException.NotFoundException(int statusCode, string? title = null, string? detail = null, string? type = null, string? instance = null, string? requestId = null, string? rawBody = null) -> void
+Infersoft.OnDuplicate
+Infersoft.OnDuplicate.Allow = 0 -> Infersoft.OnDuplicate
+Infersoft.OnDuplicate.Block = 2 -> Infersoft.OnDuplicate
+Infersoft.OnDuplicate.Notify = 1 -> Infersoft.OnDuplicate
+Infersoft.PayloadTooLargeException
+Infersoft.PayloadTooLargeException.PayloadTooLargeException(int statusCode, string? title = null, string? detail = null, string? type = null, string? instance = null, string? requestId = null, string? rawBody = null) -> void
+Infersoft.PreconditionFailedException
+Infersoft.PreconditionFailedException.PreconditionFailedException(int statusCode, string? title = null, string? detail = null, string? type = null, string? instance = null, string? requestId = null, string? rawBody = null) -> void
+Infersoft.Project
+Infersoft.Project.CreatedAt.get -> System.DateTimeOffset
+Infersoft.Project.CreatedAt.init -> void
+Infersoft.Project.Id.get -> long
+Infersoft.Project.Id.init -> void
+Infersoft.Project.Name.get -> string!
+Infersoft.Project.Name.init -> void
+Infersoft.Project.OrganizationId.get -> string!
+Infersoft.Project.OrganizationId.init -> void
+Infersoft.Project.Project() -> void
+Infersoft.ProjectPage
+Infersoft.ProjectPage.HasMore.get -> bool
+Infersoft.ProjectPage.HasMore.init -> void
+Infersoft.ProjectPage.Items.get -> System.Collections.Generic.IReadOnlyList<Infersoft.Project!>!
+Infersoft.ProjectPage.Items.init -> void
+Infersoft.ProjectPage.Page.get -> int
+Infersoft.ProjectPage.Page.init -> void
+Infersoft.ProjectPage.PageSize.get -> int
+Infersoft.ProjectPage.PageSize.init -> void
+Infersoft.ProjectPage.ProjectPage() -> void
+Infersoft.ProjectsResource
+Infersoft.ProjectsResource.AssignDocuments(Infersoft.Selectors? selectors = null, System.Collections.Generic.IEnumerable<long>? documentIds = null, long? projectId = null, string? projectName = null, string? idempotencyKey = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> Infersoft.AssignDocumentsResult!
+Infersoft.ProjectsResource.AssignDocumentsAsync(Infersoft.Selectors? selectors = null, System.Collections.Generic.IEnumerable<long>? documentIds = null, long? projectId = null, string? projectName = null, string? idempotencyKey = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<Infersoft.AssignDocumentsResult!>!
+Infersoft.ProjectsResource.Create(string! name, string? idempotencyKey = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> Infersoft.Project!
+Infersoft.ProjectsResource.CreateAsync(string! name, string? idempotencyKey = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<Infersoft.Project!>!
+Infersoft.ProjectsResource.Get(long projectId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> Infersoft.Project!
+Infersoft.ProjectsResource.GetAsync(long projectId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<Infersoft.Project!>!
+Infersoft.ProjectsResource.GetOrCreate(string! name, string? idempotencyKey = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> Infersoft.Project!
+Infersoft.ProjectsResource.GetOrCreateAsync(string! name, string? idempotencyKey = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<Infersoft.Project!>!
+Infersoft.ProjectsResource.Iterate(string? q = null, int pageSize = 50, string! orderBy = "id", string! orderDir = "asc", System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Collections.Generic.IEnumerable<Infersoft.Project!>!
+Infersoft.ProjectsResource.IterateAsync(string? q = null, int pageSize = 50, string! orderBy = "id", string! orderDir = "asc", System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Collections.Generic.IAsyncEnumerable<Infersoft.Project!>!
+Infersoft.ProjectsResource.Search(string? q = null, int page = 1, int pageSize = 50, string! orderBy = "id", string! orderDir = "asc", System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> Infersoft.ProjectPage!
+Infersoft.ProjectsResource.SearchAsync(string? q = null, int page = 1, int pageSize = 50, string! orderBy = "id", string! orderDir = "asc", System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<Infersoft.ProjectPage!>!
+Infersoft.PromptMeta
+Infersoft.PromptMeta.CreatedAt.get -> System.DateTimeOffset
+Infersoft.PromptMeta.CreatedAt.init -> void
+Infersoft.PromptMeta.DataType.get -> Infersoft.DataTypeName
+Infersoft.PromptMeta.DataType.init -> void
+Infersoft.PromptMeta.Deleted.get -> bool
+Infersoft.PromptMeta.Deleted.init -> void
+Infersoft.PromptMeta.Description.get -> string?
+Infersoft.PromptMeta.Description.init -> void
+Infersoft.PromptMeta.DocumentClass.get -> string!
+Infersoft.PromptMeta.DocumentClass.init -> void
+Infersoft.PromptMeta.Id.get -> long
+Infersoft.PromptMeta.Id.init -> void
+Infersoft.PromptMeta.Name.get -> string!
+Infersoft.PromptMeta.Name.init -> void
+Infersoft.PromptMeta.OrganizationId.get -> string!
+Infersoft.PromptMeta.OrganizationId.init -> void
+Infersoft.PromptMeta.PromptMeta() -> void
+Infersoft.PromptMeta.UpdatedAt.get -> System.DateTimeOffset
+Infersoft.PromptMeta.UpdatedAt.init -> void
+Infersoft.PromptPage
+Infersoft.PromptPage.HasMore.get -> bool
+Infersoft.PromptPage.HasMore.init -> void
+Infersoft.PromptPage.Items.get -> System.Collections.Generic.IReadOnlyList<Infersoft.PromptMeta!>!
+Infersoft.PromptPage.Items.init -> void
+Infersoft.PromptPage.Page.get -> int
+Infersoft.PromptPage.Page.init -> void
+Infersoft.PromptPage.PageSize.get -> int
+Infersoft.PromptPage.PageSize.init -> void
+Infersoft.PromptPage.PromptPage() -> void
+Infersoft.PromptsResource
+Infersoft.PromptsResource.Iterate(string? q = null, string? documentClass = null, bool includeDeleted = false, int pageSize = 50, string! orderBy = "name", string! orderDir = "asc", System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Collections.Generic.IEnumerable<Infersoft.PromptMeta!>!
+Infersoft.PromptsResource.IterateAsync(string? q = null, string? documentClass = null, bool includeDeleted = false, int pageSize = 50, string! orderBy = "name", string! orderDir = "asc", System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Collections.Generic.IAsyncEnumerable<Infersoft.PromptMeta!>!
+Infersoft.PromptsResource.Search(string? q = null, string? documentClass = null, bool includeDeleted = false, int page = 1, int pageSize = 50, string! orderBy = "name", string! orderDir = "asc", System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> Infersoft.PromptPage!
+Infersoft.PromptsResource.SearchAsync(string? q = null, string? documentClass = null, bool includeDeleted = false, int page = 1, int pageSize = 50, string! orderBy = "name", string! orderDir = "asc", System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<Infersoft.PromptPage!>!
+Infersoft.RateLimitException
+Infersoft.RateLimitException.RateLimitException(int statusCode, string? title = null, string? detail = null, string? type = null, string? instance = null, string? requestId = null, string? rawBody = null) -> void
+Infersoft.Selector
+Infersoft.Selectors
+Infersoft.Selectors.Exclude.get -> System.Collections.Generic.IReadOnlyList<Infersoft.Selector!>!
+Infersoft.Selectors.Include.get -> System.Collections.Generic.IReadOnlyList<Infersoft.Selector!>!
+Infersoft.ServerException
+Infersoft.ServerException.ServerException(int statusCode, string? title = null, string? detail = null, string? type = null, string? instance = null, string? requestId = null, string? rawBody = null) -> void
+Infersoft.Tag
+Infersoft.Tag.Id.get -> long
+Infersoft.Tag.Id.init -> void
+Infersoft.Tag.Name.get -> string!
+Infersoft.Tag.Name.init -> void
+Infersoft.Tag.Tag() -> void
+Infersoft.UnauthorizedException
+Infersoft.UnauthorizedException.UnauthorizedException(int statusCode, string? title = null, string? detail = null, string? type = null, string? instance = null, string? requestId = null, string? rawBody = null) -> void
+Infersoft.UnprocessableEntityException
+Infersoft.UnprocessableEntityException.UnprocessableEntityException(int statusCode, string? title = null, string? detail = null, string? type = null, string? instance = null, string? requestId = null, string? rawBody = null) -> void
+Infersoft.UploadDuplicate
+Infersoft.UploadDuplicate.CreatedAt.get -> System.DateTimeOffset?
+Infersoft.UploadDuplicate.CreatedAt.init -> void
+Infersoft.UploadDuplicate.DocumentId.get -> long
+Infersoft.UploadDuplicate.DocumentId.init -> void
+Infersoft.UploadDuplicate.FileSize.get -> long?
+Infersoft.UploadDuplicate.FileSize.init -> void
+Infersoft.UploadDuplicate.Name.get -> string!
+Infersoft.UploadDuplicate.Name.init -> void
+Infersoft.UploadDuplicate.PageCount.get -> int?
+Infersoft.UploadDuplicate.PageCount.init -> void
+Infersoft.UploadDuplicate.UploadDuplicate() -> void
+Infersoft.UploadErrorInfo
+Infersoft.UploadErrorInfo.Code.get -> string!
+Infersoft.UploadErrorInfo.Code.init -> void
+Infersoft.UploadErrorInfo.FileSize.get -> long?
+Infersoft.UploadErrorInfo.FileSize.init -> void
+Infersoft.UploadErrorInfo.MaxSize.get -> long?
+Infersoft.UploadErrorInfo.MaxSize.init -> void
+Infersoft.UploadErrorInfo.Message.get -> string!
+Infersoft.UploadErrorInfo.Message.init -> void
+Infersoft.UploadErrorInfo.Retryable.get -> bool?
+Infersoft.UploadErrorInfo.Retryable.init -> void
+Infersoft.UploadErrorInfo.UploadErrorInfo() -> void
+Infersoft.UploadItem
+Infersoft.UploadItem.ClientFileName.get -> string!
+Infersoft.UploadItem.ClientFileName.init -> void
+Infersoft.UploadItem.DocumentId.get -> long?
+Infersoft.UploadItem.DocumentId.init -> void
+Infersoft.UploadItem.Duplicates.get -> System.Collections.Generic.IReadOnlyList<Infersoft.UploadDuplicate!>!
+Infersoft.UploadItem.Duplicates.init -> void
+Infersoft.UploadItem.Error.get -> Infersoft.UploadErrorInfo?
+Infersoft.UploadItem.Error.init -> void
+Infersoft.UploadItem.ExpiresAt.get -> System.DateTimeOffset?
+Infersoft.UploadItem.ExpiresAt.init -> void
+Infersoft.UploadItem.PutUrl.get -> string?
+Infersoft.UploadItem.PutUrl.init -> void
+Infersoft.UploadItem.RequiredHeaders.get -> System.Collections.Generic.IReadOnlyDictionary<string!, string!>?
+Infersoft.UploadItem.RequiredHeaders.init -> void
+Infersoft.UploadItem.UploadItem() -> void
+Infersoft.UploadItem.UploadMode.get -> string?
+Infersoft.UploadItem.UploadMode.init -> void
+Infersoft.UploadManyException
+Infersoft.UploadManyException.BatchesCompleted.get -> int
+Infersoft.UploadManyException.Partial.get -> Infersoft.UploadResult!
+Infersoft.UploadManyException.UploadManyException(string! message, System.Exception! innerException, Infersoft.UploadResult! partial, int batchesCompleted) -> void
+Infersoft.UploadResult
+Infersoft.UploadResult.DocumentIds.get -> System.Collections.Generic.IReadOnlyList<long>!
+Infersoft.UploadResult.Failed.get -> System.Collections.Generic.IReadOnlyList<Infersoft.FileOutcome!>!
+Infersoft.UploadResult.Outcomes.get -> System.Collections.Generic.IReadOnlyList<Infersoft.FileOutcome!>!
+Infersoft.UploadResult.Project.get -> Infersoft.Project?
+Infersoft.UploadResult.Skipped.get -> System.Collections.Generic.IReadOnlyList<Infersoft.FileOutcome!>!
+Infersoft.UploadResult.Succeeded.get -> System.Collections.Generic.IReadOnlyList<Infersoft.FileOutcome!>!
+Infersoft.UploadResult.Tags.get -> System.Collections.Generic.IReadOnlyList<Infersoft.Tag!>!
+Infersoft.UploadResult.UploadResult() -> void
+Infersoft.UploadTransferException
+Infersoft.UploadTransferException.RequestId.get -> string?
+Infersoft.UploadTransferException.StatusCode.get -> int?
+Infersoft.UploadTransferException.UploadTransferException(string! message, int? statusCode = null, string? requestId = null) -> void
+Infersoft.UploadTransferException.UploadTransferException(string! message, System.Exception! innerException) -> void
+Infersoft.WaitTimeoutException
+Infersoft.WaitTimeoutException.WaitTimeoutException() -> void
+Infersoft.WaitTimeoutException.WaitTimeoutException(string! message) -> void
+Infersoft.WaitTimeoutException.WaitTimeoutException(string! message, System.Exception! innerException) -> void
+override Infersoft.DataTypeName.Equals(object? obj) -> bool
+override Infersoft.DataTypeName.GetHashCode() -> int
+override Infersoft.DataTypeName.ToString() -> string!
+override Infersoft.DocumentStatus.Equals(object? obj) -> bool
+override Infersoft.DocumentStatus.GetHashCode() -> int
+override Infersoft.DocumentStatus.ToString() -> string!
+override Infersoft.JobStatus.Equals(object? obj) -> bool
+override Infersoft.JobStatus.GetHashCode() -> int
+override Infersoft.JobStatus.ToString() -> string!
+static Infersoft.DataTypeName.Boolean.get -> Infersoft.DataTypeName
+static Infersoft.DataTypeName.Date.get -> Infersoft.DataTypeName
+static Infersoft.DataTypeName.implicit operator Infersoft.DataTypeName(string! value) -> Infersoft.DataTypeName
+static Infersoft.DataTypeName.Number.get -> Infersoft.DataTypeName
+static Infersoft.DataTypeName.operator !=(Infersoft.DataTypeName left, Infersoft.DataTypeName right) -> bool
+static Infersoft.DataTypeName.operator ==(Infersoft.DataTypeName left, Infersoft.DataTypeName right) -> bool
+static Infersoft.DataTypeName.String.get -> Infersoft.DataTypeName
+static Infersoft.DocumentStatus.implicit operator Infersoft.DocumentStatus(string! value) -> Infersoft.DocumentStatus
+static Infersoft.DocumentStatus.operator !=(Infersoft.DocumentStatus left, Infersoft.DocumentStatus right) -> bool
+static Infersoft.DocumentStatus.operator ==(Infersoft.DocumentStatus left, Infersoft.DocumentStatus right) -> bool
+static Infersoft.DocumentStatus.Processing.get -> Infersoft.DocumentStatus
+static Infersoft.DocumentStatus.Ready.get -> Infersoft.DocumentStatus
+static Infersoft.DocumentStatus.Uploading.get -> Infersoft.DocumentStatus
+static Infersoft.JobStatus.Completed.get -> Infersoft.JobStatus
+static Infersoft.JobStatus.CreatingWorkflows.get -> Infersoft.JobStatus
+static Infersoft.JobStatus.Failed.get -> Infersoft.JobStatus
+static Infersoft.JobStatus.implicit operator Infersoft.JobStatus(string! value) -> Infersoft.JobStatus
+static Infersoft.JobStatus.operator !=(Infersoft.JobStatus left, Infersoft.JobStatus right) -> bool
+static Infersoft.JobStatus.operator ==(Infersoft.JobStatus left, Infersoft.JobStatus right) -> bool
+static Infersoft.JobStatus.PartialSuccess.get -> Infersoft.JobStatus
+static Infersoft.JobStatus.Running.get -> Infersoft.JobStatus
+static Infersoft.Selector.CreatedAt(string? createdFrom = null, string? createdTo = null) -> Infersoft.Selector!
+static Infersoft.Selector.DocumentClass(System.Collections.Generic.IEnumerable<string!>! classes) -> Infersoft.Selector!
+static Infersoft.Selector.File(System.Collections.Generic.IEnumerable<long>! ids) -> Infersoft.Selector!
+static Infersoft.Selector.Folder(long folderId) -> Infersoft.Selector!
+static Infersoft.Selector.HasChildren() -> Infersoft.Selector!
+static Infersoft.Selector.HasRunningWorkflow() -> Infersoft.Selector!
+static Infersoft.Selector.IsValid() -> Infersoft.Selector!
+static Infersoft.Selector.Job(System.Collections.Generic.IEnumerable<long>! ids) -> Infersoft.Selector!
+static Infersoft.Selector.Name(string! value) -> Infersoft.Selector!
+static Infersoft.Selector.PageCount(int? pageCountFrom = null, int? pageCountTo = null) -> Infersoft.Selector!
+static Infersoft.Selector.Project(long projectId, string? addedFrom = null, string? addedTo = null) -> Infersoft.Selector!
+static Infersoft.Selector.Raw(string! type, System.Collections.Generic.IDictionary<string!, object?>! fields) -> Infersoft.Selector!
+static Infersoft.Selector.Size(long? sizeFrom = null, long? sizeTo = null) -> Infersoft.Selector!
+static Infersoft.Selector.SourceDocument(System.Collections.Generic.IEnumerable<long>! ids) -> Infersoft.Selector!
+static Infersoft.Selector.Tag(System.Collections.Generic.IEnumerable<long>! ids, string? taggedFrom = null, string? taggedTo = null) -> Infersoft.Selector!
+static Infersoft.Selectors.Build(System.Collections.Generic.IEnumerable<Infersoft.Selector!>? include = null, System.Collections.Generic.IEnumerable<Infersoft.Selector!>? exclude = null) -> Infersoft.Selectors!

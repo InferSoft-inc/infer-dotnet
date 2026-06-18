@@ -1,0 +1,33 @@
+# .NET build output
+bin/
+obj/
+[Dd]ebug/
+[Rr]elease/
+*.user
+*.suo
+artifacts/
+
+# Test / coverage
+[Tt]est[Rr]esults/
+*.trx
+*.coverage
+*.coverlet.json
+coverage*.json
+coverage*.xml
+coverage*.cobertura.xml
+
+# NuGet
+*.nupkg
+*.snupkg
+.nuget/
+project.lock.json
+packages/
+
+# Editors / OS
+.vs/
+.idea/
+.vscode/
+.DS_Store
+
+# Claude Code skills (internal dev guidance; kept out of the public package)
+.claude/skills/

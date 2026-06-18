@@ -1,0 +1,14 @@
+# Keeps the SHA-pinned actions in .github/workflows/ fresh (Dependabot bumps the
+# pinned commits and their version comments), and the NuGet package versions in
+# the .csproj files up to date.
+version: 2
+updates:
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+
+  - package-ecosystem: "nuget"
+    directory: "/"
+    schedule:
+      interval: "weekly"

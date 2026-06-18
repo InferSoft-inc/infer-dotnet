@@ -1,0 +1,22 @@
+<Project>
+
+  <!-- Settings shared across all projects (src + tests). Project-specific
+       concerns (XML docs, packaging, public-API tracking) live in each .csproj. -->
+  <PropertyGroup>
+    <Nullable>enable</Nullable>
+    <LangVersion>latest</LangVersion>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
+    <AnalysisLevel>latest</AnalysisLevel>
+    <AnalysisMode>Recommended</AnalysisMode>
+
+    <!-- Single source of version truth. -->
+    <Version>0.1.0</Version>
+    <Authors>InferSoft</Authors>
+    <Company>InferSoft, Inc.</Company>
+    <Product>Infersoft .NET SDK</Product>
+    <Copyright>Copyright 2026 InferSoft, Inc.</Copyright>
+  </PropertyGroup>
+
+</Project>

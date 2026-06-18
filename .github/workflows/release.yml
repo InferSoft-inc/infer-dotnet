@@ -1,0 +1,92 @@
+# Publishes to NuGet.org via Trusted Publishing (OIDC — no stored API key).
+# Trigger: pushing a version tag (e.g. v0.1.0). The tag must match <Version> in
+# Directory.Build.props, and the full gate suite must pass on the tagged commit.
+#
+# No `concurrency` block on purpose: a release must never be auto-cancelled by a
+# newer one; distinct tags are distinct releases.
+#
+# Setup (one-time): register this repo + this workflow file as a trusted publisher
+# on nuget.org (Account → Trusted Publishing) and set the `NUGET_USER` repo/org
+# variable to your nuget.org username. Fallback without OIDC: store a NUGET_API_KEY
+# secret and replace the NuGet/login step + --api-key value below with it.
+#
+# Actions are pinned to commit SHAs (this workflow holds id-token: write, the
+# credential that mints the publish key); Dependabot keeps the pins fresh.
+name: release
+
+permissions:
+  contents: read
+
+on:
+  push:
+    tags: ["v*"]
+
+jobs:
+  build:
+    name: build & verify
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-dotnet@67a3573c9a986a3f9c594539f4ab511d57bb3ce9 # v4.3.1
+        with:
+          dotnet-version: "8.0.x"
+
+      - name: Tag must match package version
+        env:
+          TAG: ${{ github.ref_name }}
+        run: |
+          version=$(grep -oP '(?<=<Version>)[^<]+' Directory.Build.props)
+          tag="${TAG#v}"
+          if [ -z "$version" ]; then echo "error: could not read <Version> from Directory.Build.props"; exit 1; fi
+          if [ "$version" != "$tag" ]; then echo "error: tag v$tag does not match package version $version"; exit 1; fi
+          echo "version check OK: $version"
+
+      - name: Restore
+        run: dotnet restore
+
+      - name: Gates on the tagged commit
+        run: |
+          dotnet build --no-restore -c Release -p:ContinuousIntegrationBuild=true
+          dotnet test --no-build -c Release
+          dotnet format --verify-no-changes
+
+      - name: Pack (package + symbols)
+        run: dotnet pack src/Infersoft/Infersoft.csproj --no-build -c Release -o dist
+
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: nupkg
+          path: dist/
+
+  publish:
+    name: publish to NuGet
+    needs: build
+    runs-on: ubuntu-latest
+    environment: nuget # the GitHub Environment that gates the publish
+    permissions:
+      id-token: write # OIDC token for NuGet trusted publishing
+    steps:
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
+        with:
+          name: nupkg
+          path: dist/
+
+      - uses: actions/setup-dotnet@67a3573c9a986a3f9c594539f4ab511d57bb3ce9 # v4.3.1
+        with:
+          dotnet-version: "8.0.x"
+
+      # Exchanges the GitHub OIDC token for a short-lived NuGet.org API key.
+      - uses: NuGet/login@8d196754b4036150537f80ac539e15c2f1028841 # v1.2.0
+        id: login
+        with:
+          user: ${{ vars.NUGET_USER }}
+
+      - name: Push (package + symbols)
+        run: >
+          dotnet nuget push "dist/*.nupkg"
+          --api-key "${{ steps.login.outputs.NUGET_API_KEY }}"
+          --source https://api.nuget.org/v3/index.json
+          --skip-duplicate

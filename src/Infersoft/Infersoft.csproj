@@ -1,0 +1,59 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>net8.0;netstandard2.0</TargetFrameworks>
+    <RootNamespace>Infersoft</RootNamespace>
+    <AssemblyName>Infersoft</AssemblyName>
+
+    <!-- Package metadata (publish is out of scope until a later CI/CD effort). -->
+    <PackageId>Infersoft</PackageId>
+    <Description>.NET SDK for the Infersoft document-processing REST API.</Description>
+    <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+    <PackageProjectUrl>https://infersoft.com</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/InferSoft-inc/infer-dotnet</RepositoryUrl>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageTags>infersoft;document;sdk;api;extraction;ocr</PackageTags>
+    <IsPackable>true</IsPackable>
+
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+
+    <!-- Package the symbols (.snupkg) and embed SourceLink so consumers can step into the source. -->
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
+    <!-- Validate the multi-target package is internally consistent. -->
+    <EnablePackageValidation>true</EnablePackageValidation>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.Text.Json" Version="8.0.5" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.2" />
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.0.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.CodeAnalysis.PublicApiAnalyzers" Version="3.3.4">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <!-- netstandard2.0 lacks IAsyncEnumerable; backport it. -->
+  <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
+    <PackageReference Include="Microsoft.Bcl.AsyncInterfaces" Version="8.0.0" />
+  </ItemGroup>
+
+  <!-- PublicAPI.{Shipped,Unshipped}.txt are auto-included as AdditionalFiles by the
+       PublicApiAnalyzers package; no explicit <AdditionalFiles> needed. -->
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="Infersoft.Tests" />
+  </ItemGroup>
+
+  <!-- README is packed into the NuGet package; it lives at the repo root. -->
+  <ItemGroup>
+    <None Include="../../README.md" Pack="true" PackagePath="/" Visible="false" />
+  </ItemGroup>
+
+</Project>
