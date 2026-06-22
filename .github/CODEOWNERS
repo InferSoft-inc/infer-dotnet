@@ -1,0 +1,12 @@
+# Code owners for this repository.
+#
+# Listed owners are auto-requested for review on pull requests that touch
+# matching paths, and — with "Require review from Code Owners" enabled in the
+# branch ruleset — must approve before a PR can merge. A team owner lets any
+# team member satisfy the review and survives individual membership changes.
+#
+# The team must have write (or higher) access to this repo for the rule to take
+# effect; @InferSoft-inc/infersoft-it has admin access.
+
+# Everything is owned by the Infersoft SDK maintainers.
+*       @InferSoft-inc/infersoft-it
