@@ -73,6 +73,37 @@ public sealed class JobsResource
             idempotencyKey: idempotencyKey ?? RequestPipeline.NewIdempotencyKey(),
             cancellationToken: cancellationToken).ConfigureAwait(false))!;
 
+    /// <summary>
+    /// Price a workflow without reserving anything. Same request shape and formula as
+    /// <see cref="Estimate"/>, but read-only: no documents are reserved and no id is
+    /// returned, so the result cannot be passed to <see cref="Start"/>. Use it while
+    /// composing a job; call <see cref="Estimate"/> when ready to start.
+    /// </summary>
+    public CreditsQuote Quote(
+        string step,
+        Selectors? selectors = null,
+        IEnumerable<long>? documentIds = null,
+        IEnumerable<long>? prompts = null,
+        bool synchronous = false,
+        CancellationToken cancellationToken = default) =>
+        _http.Request<CreditsQuote>(
+            HttpMethod.Post, "/api/jobs/credits/quote",
+            BuildEstimate(step, selectors, documentIds, prompts, synchronous),
+            idempotent: true, cancellationToken: cancellationToken)!;
+
+    /// <inheritdoc cref="Quote"/>
+    public async Task<CreditsQuote> QuoteAsync(
+        string step,
+        Selectors? selectors = null,
+        IEnumerable<long>? documentIds = null,
+        IEnumerable<long>? prompts = null,
+        bool synchronous = false,
+        CancellationToken cancellationToken = default) =>
+        (await _http.RequestAsync<CreditsQuote>(
+            HttpMethod.Post, "/api/jobs/credits/quote",
+            BuildEstimate(step, selectors, documentIds, prompts, synchronous),
+            idempotent: true, cancellationToken: cancellationToken).ConfigureAwait(false))!;
+
     /// <summary>Start a job from a credits estimate id.</summary>
     public Job Start(string creditsId, long? projectId = null, string? idempotencyKey = null, CancellationToken cancellationToken = default) =>
         _http.Request<Job>(

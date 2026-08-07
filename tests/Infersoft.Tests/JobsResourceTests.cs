@@ -59,6 +59,33 @@ public class JobsResourceTests
     [Theory]
     [InlineData(true)]
     [InlineData(false)]
+    public async Task Quote_is_read_only_and_sends_estimate_shaped_body(bool useAsync)
+    {
+        var (jobs, tp) = MakeJobs((req, i, ct) => Responses.Json(HttpStatusCode.OK,
+            "{\"total_credits\":17,\"page_count\":9,\"document_count\":4}"));
+        using (tp)
+        {
+            var quote = useAsync
+                ? await jobs.QuoteAsync("extractor", documentIds: new long[] { 1 }, prompts: new long[] { 5 }, synchronous: true)
+                : jobs.Quote("extractor", documentIds: new long[] { 1 }, prompts: new long[] { 5 }, synchronous: true);
+
+            Assert.Equal(17, quote.TotalCredits);
+            Assert.Equal(9, quote.PageCount);
+            Assert.Equal(4, quote.DocumentCount);
+
+            var request = tp.Handler.Requests.Single();
+            Assert.EndsWith("/api/jobs/credits/quote", request.Uri!.AbsolutePath, StringComparison.Ordinal);
+            Assert.True(string.IsNullOrEmpty(request.IdempotencyKey));
+            using var body = JsonDocument.Parse(request.Body!);
+            Assert.Equal("extractor", body.RootElement.GetProperty("steps")[0].GetString());
+            Assert.True(body.RootElement.GetProperty("synchronous").GetBoolean());
+            Assert.Equal(5, body.RootElement.GetProperty("prompts")[0].GetInt64());
+        }
+    }
+
+    [Theory]
+    [InlineData(true)]
+    [InlineData(false)]
     public async Task Run_throws_when_estimate_exceeds_max_credits(bool useAsync)
     {
         var (jobs, tp) = MakeJobs((req, i, ct) => IsEstimate(req) ? Estimate(100) : JobJson("running"));
