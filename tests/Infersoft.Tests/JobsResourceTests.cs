@@ -61,8 +61,6 @@ public class JobsResourceTests
     [InlineData(false)]
     public async Task Quote_is_read_only_retryable_and_sends_estimate_shaped_body(bool useAsync)
     {
-        // First attempt fails with a retryable 503: quote is read-only, so it
-        // must retry without any idempotency key.
         var pipeline = new TestPipeline(Responders.Sequence(
             () => Responses.Status(HttpStatusCode.ServiceUnavailable, ("Retry-After", "0")),
             () => Responses.Json(HttpStatusCode.OK,
