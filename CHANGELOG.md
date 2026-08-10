@@ -7,11 +7,6 @@ All notable changes to this project are documented here. The format is based on
 ## [Unreleased]
 
 ### Added
-- `Jobs.Quote` / `Jobs.QuoteAsync` — read-only credit calculation via
-  `POST /api/jobs/credits/quote`. Same request shape and formula as `Estimate`,
-  but nothing is reserved and no id is returned, so it can be called repeatedly
-  while composing a job. Returns the new `CreditsQuote` model (`TotalCredits`,
-  `PageCount`, `DocumentCount`).
 - Initial release of the Infersoft .NET SDK, targeting `net8.0` and `netstandard2.0`.
 - `InfersoftClient` exposing synchronous and asynchronous method pairs, with OAuth2
   client-credentials authentication (lazy token fetch, caching, single-flight refresh, refresh on
@@ -20,8 +15,9 @@ All notable changes to this project are documented here. The format is based on
 - **Documents** — get, search, iterate, `GetValues`; `Upload` / `UploadMany` /
   `UploadManyFromDirectory` (batching, `OnDuplicate` handling, partial-failure semantics);
   `WaitUntilReady`; `DownloadUrl` / `Download`; `MoveToFolder`; `BulkDelete`; `Delete`.
-- **Jobs** — `Estimate`, `Start`, `Run` (with a `maxCredits` budget guard), `Get`, `Wait`,
-  `Results`, `Search`, `Iterate`, with finite-by-default waiting/polling.
+- **Jobs** — `Estimate`, `Quote` (read-only credit calculation, nothing reserved), `Start`,
+  `Run` (with a `maxCredits` budget guard), `Get`, `Wait`, `Results`, `Search`, `Iterate`,
+  with finite-by-default waiting/polling.
 - **Projects** — `Create`, `Get`, `GetOrCreate`, `Search`, `Iterate`, `AssignDocuments`.
 - **Folders** — `Create`, `Get`, `Rename`, `Search`, `Iterate`, `Move`, `BulkDelete`,
   `ResolvePaths`, `EnsurePath`.

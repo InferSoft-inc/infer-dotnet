@@ -61,12 +61,11 @@ public class JobsResourceTests
     [InlineData(false)]
     public async Task Quote_is_read_only_retryable_and_sends_estimate_shaped_body(bool useAsync)
     {
-        var pipeline = new TestPipeline(Responders.Sequence(
+        var (jobs, tp) = MakeJobs(Responders.Sequence(
             () => Responses.Status(HttpStatusCode.ServiceUnavailable, ("Retry-After", "0")),
             () => Responses.Json(HttpStatusCode.OK,
                 "{\"total_credits\":17,\"page_count\":9,\"document_count\":4}")));
-        var jobs = new JobsResource(pipeline.Pipeline, NullLogger.Instance);
-        using (pipeline)
+        using (tp)
         {
             var quote = useAsync
                 ? await jobs.QuoteAsync("extractor", documentIds: new long[] { 1 }, prompts: new long[] { 5 }, synchronous: true)
@@ -76,10 +75,10 @@ public class JobsResourceTests
             Assert.Equal(9, quote.PageCount);
             Assert.Equal(4, quote.DocumentCount);
 
-            Assert.Equal(2, pipeline.Handler.CallCount);
-            var request = pipeline.Handler.Requests.Last();
+            Assert.Equal(2, tp.Handler.CallCount);
+            var request = tp.Handler.Requests.Last();
             Assert.EndsWith("/api/jobs/credits/quote", request.Uri!.AbsolutePath, StringComparison.Ordinal);
-            Assert.All(pipeline.Handler.Requests, r => Assert.True(string.IsNullOrEmpty(r.IdempotencyKey)));
+            Assert.All(tp.Handler.Requests, r => Assert.True(string.IsNullOrEmpty(r.IdempotencyKey)));
             using var body = JsonDocument.Parse(request.Body!);
             Assert.Equal("extractor", body.RootElement.GetProperty("steps")[0].GetString());
             Assert.True(body.RootElement.GetProperty("synchronous").GetBoolean());

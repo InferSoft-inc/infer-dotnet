@@ -44,6 +44,10 @@ Infersoft.CreditsEstimate.PageCount.get -> int
 Infersoft.CreditsEstimate.PageCount.init -> void
 Infersoft.CreditsEstimate.TotalCredits.get -> int
 Infersoft.CreditsEstimate.TotalCredits.init -> void
+Infersoft.CreditsLimitExceededException
+Infersoft.CreditsLimitExceededException.CreditsLimitExceededException(Infersoft.CreditsEstimate! estimate, int maxCredits) -> void
+Infersoft.CreditsLimitExceededException.Estimate.get -> Infersoft.CreditsEstimate!
+Infersoft.CreditsLimitExceededException.MaxCredits.get -> int
 Infersoft.CreditsQuote
 Infersoft.CreditsQuote.CreditsQuote() -> void
 Infersoft.CreditsQuote.DocumentCount.get -> int
@@ -52,10 +56,6 @@ Infersoft.CreditsQuote.PageCount.get -> int
 Infersoft.CreditsQuote.PageCount.init -> void
 Infersoft.CreditsQuote.TotalCredits.get -> int
 Infersoft.CreditsQuote.TotalCredits.init -> void
-Infersoft.CreditsLimitExceededException
-Infersoft.CreditsLimitExceededException.CreditsLimitExceededException(Infersoft.CreditsEstimate! estimate, int maxCredits) -> void
-Infersoft.CreditsLimitExceededException.Estimate.get -> Infersoft.CreditsEstimate!
-Infersoft.CreditsLimitExceededException.MaxCredits.get -> int
 Infersoft.DataTypeName
 Infersoft.DataTypeName.DataTypeName() -> void
 Infersoft.DataTypeName.DataTypeName(string! value) -> void
@@ -386,12 +386,12 @@ Infersoft.JobPage.PageSize.init -> void
 Infersoft.JobsResource
 Infersoft.JobsResource.Estimate(string! step, Infersoft.Selectors? selectors = null, System.Collections.Generic.IEnumerable<long>? documentIds = null, System.Collections.Generic.IEnumerable<long>? prompts = null, bool synchronous = false, string? idempotencyKey = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> Infersoft.CreditsEstimate!
 Infersoft.JobsResource.EstimateAsync(string! step, Infersoft.Selectors? selectors = null, System.Collections.Generic.IEnumerable<long>? documentIds = null, System.Collections.Generic.IEnumerable<long>? prompts = null, bool synchronous = false, string? idempotencyKey = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<Infersoft.CreditsEstimate!>!
-Infersoft.JobsResource.Quote(string! step, Infersoft.Selectors? selectors = null, System.Collections.Generic.IEnumerable<long>? documentIds = null, System.Collections.Generic.IEnumerable<long>? prompts = null, bool synchronous = false, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> Infersoft.CreditsQuote!
-Infersoft.JobsResource.QuoteAsync(string! step, Infersoft.Selectors? selectors = null, System.Collections.Generic.IEnumerable<long>? documentIds = null, System.Collections.Generic.IEnumerable<long>? prompts = null, bool synchronous = false, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<Infersoft.CreditsQuote!>!
 Infersoft.JobsResource.Get(long jobId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> Infersoft.Job!
 Infersoft.JobsResource.GetAsync(long jobId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<Infersoft.Job!>!
 Infersoft.JobsResource.Iterate(System.Collections.Generic.IEnumerable<string!>? statuses = null, string? createdFrom = null, string? createdTo = null, int pageSize = 50, string! orderBy = "id", string! orderDir = "desc", System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Collections.Generic.IEnumerable<Infersoft.Job!>!
 Infersoft.JobsResource.IterateAsync(System.Collections.Generic.IEnumerable<string!>? statuses = null, string? createdFrom = null, string? createdTo = null, int pageSize = 50, string! orderBy = "id", string! orderDir = "desc", System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Collections.Generic.IAsyncEnumerable<Infersoft.Job!>!
+Infersoft.JobsResource.Quote(string! step, Infersoft.Selectors? selectors = null, System.Collections.Generic.IEnumerable<long>? documentIds = null, System.Collections.Generic.IEnumerable<long>? prompts = null, bool synchronous = false, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> Infersoft.CreditsQuote!
+Infersoft.JobsResource.QuoteAsync(string! step, Infersoft.Selectors? selectors = null, System.Collections.Generic.IEnumerable<long>? documentIds = null, System.Collections.Generic.IEnumerable<long>? prompts = null, bool synchronous = false, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<Infersoft.CreditsQuote!>!
 Infersoft.JobsResource.Results(Infersoft.Job! job, System.Collections.Generic.IEnumerable<long>? prompts = null, int pageSize = 50, string! orderBy = "id", string! orderDir = "asc", System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Collections.Generic.IEnumerable<Infersoft.DocumentSummary!>!
 Infersoft.JobsResource.Results(long jobId, System.Collections.Generic.IEnumerable<long>? prompts = null, int pageSize = 50, string! orderBy = "id", string! orderDir = "asc", System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Collections.Generic.IEnumerable<Infersoft.DocumentSummary!>!
 Infersoft.JobsResource.ResultsAsync(Infersoft.Job! job, System.Collections.Generic.IEnumerable<long>? prompts = null, int pageSize = 50, string! orderBy = "id", string! orderDir = "asc", System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Collections.Generic.IAsyncEnumerable<Infersoft.DocumentSummary!>!
