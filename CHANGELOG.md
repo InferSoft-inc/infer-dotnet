@@ -15,8 +15,9 @@ All notable changes to this project are documented here. The format is based on
 - **Documents** — get, search, iterate, `GetValues`; `Upload` / `UploadMany` /
   `UploadManyFromDirectory` (batching, `OnDuplicate` handling, partial-failure semantics);
   `WaitUntilReady`; `DownloadUrl` / `Download`; `MoveToFolder`; `BulkDelete`; `Delete`.
-- **Jobs** — `Estimate`, `Start`, `Run` (with a `maxCredits` budget guard), `Get`, `Wait`,
-  `Results`, `Search`, `Iterate`, with finite-by-default waiting/polling.
+- **Jobs** — `Estimate`, `Quote` (read-only credit calculation, nothing reserved), `Start`,
+  `Run` (with a `maxCredits` budget guard), `Get`, `Wait`, `Results`, `Search`, `Iterate`,
+  with finite-by-default waiting/polling.
 - **Projects** — `Create`, `Get`, `GetOrCreate`, `Search`, `Iterate`, `AssignDocuments`.
 - **Folders** — `Create`, `Get`, `Rename`, `Search`, `Iterate`, `Move`, `BulkDelete`,
   `ResolvePaths`, `EnsurePath`.
