@@ -41,6 +41,12 @@ public sealed class ExtractionResultValue : InfersoftModel
 
     public DataTypeName? DataType { get; init; }
 
+    /// <summary>Reference-only display metadata from the prompt; <see cref="DataType"/> drives parsing.</summary>
+    public string? DisplayType { get; init; }
+
+    /// <summary>Name of the group the value's prompt belongs to.</summary>
+    public string? GroupName { get; init; }
+
     /// <summary>The parsed value (raw JSON; its shape depends on <see cref="DataType"/>).</summary>
     public JsonElement? ParsedValue { get; init; }
 
