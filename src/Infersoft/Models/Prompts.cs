@@ -19,7 +19,6 @@ public sealed class PromptMeta : InfersoftModel
     /// <summary>Reference-only display metadata; <see cref="DataType"/> drives parsing.</summary>
     public string? DisplayType { get; init; }
 
-    /// <summary>Name of the group the prompt belongs to.</summary>
     public string? GroupName { get; init; }
 
     public string DocumentClass { get; init; } = "";
