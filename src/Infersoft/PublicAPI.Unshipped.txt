@@ -479,6 +479,8 @@ Infersoft.PromptMeta.DisplayType.get -> string?
 Infersoft.PromptMeta.DisplayType.init -> void
 Infersoft.PromptMeta.DocumentClass.get -> string!
 Infersoft.PromptMeta.DocumentClass.init -> void
+Infersoft.PromptMeta.Example.get -> System.Text.Json.JsonElement?
+Infersoft.PromptMeta.Example.init -> void
 Infersoft.PromptMeta.GroupName.get -> string?
 Infersoft.PromptMeta.GroupName.init -> void
 Infersoft.PromptMeta.Id.get -> long

@@ -219,6 +219,7 @@ public class ResourcesTests
             "{\"items\":[" +
             "{\"id\":1,\"organization_id\":\"o\",\"name\":\"Amount\",\"data_type\":\"Number\"," +
             "\"display_type\":\"currency\",\"group_name\":\"Financials\"," +
+            "\"example\":{\"example\":\"$1,234.50\",\"explanation\":\"Total contract value.\"}," +
             "\"document_class\":\"invoice\",\"deleted\":false,\"created_at\":\"2026-01-01T00:00:00Z\",\"updated_at\":\"2026-01-01T00:00:00Z\"}," +
             "{\"id\":2,\"organization_id\":\"o\",\"name\":\"Plain\",\"data_type\":\"String\"," +
             "\"document_class\":\"invoice\",\"deleted\":false,\"created_at\":\"2026-01-01T00:00:00Z\",\"updated_at\":\"2026-01-01T00:00:00Z\"}" +
@@ -231,8 +232,10 @@ public class ResourcesTests
             var page = prompts.Search();
             Assert.Equal("currency", page.Items[0].DisplayType);
             Assert.Equal("Financials", page.Items[0].GroupName);
+            Assert.Equal("$1,234.50", page.Items[0].Example!.Value.GetProperty("example").GetString());
             Assert.Null(page.Items[1].DisplayType);
             Assert.Null(page.Items[1].GroupName);
+            Assert.Null(page.Items[1].Example);
         }
     }
 

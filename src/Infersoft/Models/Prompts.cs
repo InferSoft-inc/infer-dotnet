@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Text.Json;
 
 namespace Infersoft;
 
@@ -20,6 +21,9 @@ public sealed class PromptMeta : InfersoftModel
     public string? DisplayType { get; init; }
 
     public string? GroupName { get; init; }
+
+    /// <summary>Example of the prompt's result shown in field pickers (free-form JSON).</summary>
+    public JsonElement? Example { get; init; }
 
     public string DocumentClass { get; init; } = "";
 
