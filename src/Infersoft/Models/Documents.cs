@@ -41,7 +41,6 @@ public sealed class ExtractionResultValue : InfersoftModel
 
     public DataTypeName? DataType { get; init; }
 
-    /// <summary>Reference-only display metadata from the prompt; <see cref="DataType"/> drives parsing.</summary>
     public string? DisplayType { get; init; }
 
     public string? GroupName { get; init; }
