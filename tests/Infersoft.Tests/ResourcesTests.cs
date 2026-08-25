@@ -232,9 +232,30 @@ public class ResourcesTests
             var page = prompts.Search();
             Assert.Equal("currency", page.Items[0].DisplayType);
             Assert.Equal("Financials", page.Items[0].GroupName);
-            Assert.Equal("$1,234.50", page.Items[0].Example!.Value.GetProperty("example").GetString());
             Assert.Null(page.Items[1].DisplayType);
             Assert.Null(page.Items[1].GroupName);
+        }
+    }
+
+    [Fact]
+    public void Prompt_search_parses_example_json()
+    {
+        const string body =
+            "{\"items\":[" +
+            "{\"id\":1,\"organization_id\":\"o\",\"name\":\"Amount\",\"data_type\":\"Number\"," +
+            "\"example\":{\"example\":\"$1,234.50\",\"explanation\":\"Total contract value.\"}," +
+            "\"document_class\":\"invoice\",\"deleted\":false,\"created_at\":\"2026-01-01T00:00:00Z\",\"updated_at\":\"2026-01-01T00:00:00Z\"}," +
+            "{\"id\":2,\"organization_id\":\"o\",\"name\":\"Plain\",\"data_type\":\"String\"," +
+            "\"document_class\":\"invoice\",\"deleted\":false,\"created_at\":\"2026-01-01T00:00:00Z\",\"updated_at\":\"2026-01-01T00:00:00Z\"}" +
+            "],\"page\":1,\"page_size\":50,\"has_more\":false}";
+
+        var pipeline = new TestPipeline((req, i, ct) => Responses.Json(HttpStatusCode.OK, body));
+        using (pipeline)
+        {
+            var prompts = new PromptsResource(pipeline.Pipeline);
+            var page = prompts.Search();
+            Assert.Equal("$1,234.50", page.Items[0].Example!.Value.GetProperty("example").GetString());
+            Assert.Equal("Total contract value.", page.Items[0].Example!.Value.GetProperty("explanation").GetString());
             Assert.Null(page.Items[1].Example);
         }
     }
