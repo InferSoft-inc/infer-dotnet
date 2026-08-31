@@ -162,7 +162,11 @@ Infersoft.ExtractionKey.PromptId = 1 -> Infersoft.ExtractionKey
 Infersoft.ExtractionResultValue
 Infersoft.ExtractionResultValue.DataType.get -> Infersoft.DataTypeName?
 Infersoft.ExtractionResultValue.DataType.init -> void
+Infersoft.ExtractionResultValue.DisplayType.get -> string?
+Infersoft.ExtractionResultValue.DisplayType.init -> void
 Infersoft.ExtractionResultValue.ExtractionResultValue() -> void
+Infersoft.ExtractionResultValue.GroupName.get -> string?
+Infersoft.ExtractionResultValue.GroupName.init -> void
 Infersoft.ExtractionResultValue.Issues.get -> System.Collections.Generic.IReadOnlyList<string!>!
 Infersoft.ExtractionResultValue.Issues.init -> void
 Infersoft.ExtractionResultValue.Name.get -> string?
@@ -471,8 +475,14 @@ Infersoft.PromptMeta.Deleted.get -> bool
 Infersoft.PromptMeta.Deleted.init -> void
 Infersoft.PromptMeta.Description.get -> string?
 Infersoft.PromptMeta.Description.init -> void
+Infersoft.PromptMeta.DisplayType.get -> string?
+Infersoft.PromptMeta.DisplayType.init -> void
 Infersoft.PromptMeta.DocumentClass.get -> string!
 Infersoft.PromptMeta.DocumentClass.init -> void
+Infersoft.PromptMeta.Example.get -> System.Text.Json.JsonElement?
+Infersoft.PromptMeta.Example.init -> void
+Infersoft.PromptMeta.GroupName.get -> string?
+Infersoft.PromptMeta.GroupName.init -> void
 Infersoft.PromptMeta.Id.get -> long
 Infersoft.PromptMeta.Id.init -> void
 Infersoft.PromptMeta.Name.get -> string!
