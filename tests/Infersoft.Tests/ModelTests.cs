@@ -16,7 +16,8 @@ public class ModelTests
             "\"is_valid\":true,\"created_at\":\"2026-01-02T03:04:05Z\",\"has_active_workflow\":false," +
             "\"file_size\":1234,\"page_count\":3," +
             "\"extraction_results\":[{\"prompt_id\":10,\"value\":{\"name\":\"total\"," +
-            "\"data_type\":\"Number\",\"parsed_value\":42,\"raw_value\":\"42\"}}]," +
+            "\"data_type\":\"Number\",\"display_type\":\"currency\",\"group_name\":\"Financials\"," +
+            "\"parsed_value\":42,\"raw_value\":\"42\"}}]," +
             "\"some_new_field\":\"keep\"}";
 
         var doc = JsonSerializer.Deserialize<DocumentSummary>(json, InfersoftJson.Options)!;
@@ -32,6 +33,8 @@ public class ModelTests
         var value = Assert.Contains(10L, doc.Extractions);
         Assert.Equal("total", value.Name);
         Assert.Equal(DataTypeName.Number, value.DataType);
+        Assert.Equal("currency", value.DisplayType);
+        Assert.Equal("Financials", value.GroupName);
         Assert.Equal(42, value.ParsedValue!.Value.GetInt32());
 
         Assert.NotNull(doc.AdditionalData);
