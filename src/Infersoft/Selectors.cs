@@ -32,6 +32,10 @@ public sealed class Selector
     public static Selector Folder(long folderId) =>
         Make("folderSelector", ("folder_id", folderId));
 
+    /// <summary>Match documents in a folder or in any folder below it, at any depth.</summary>
+    public static Selector FolderSubtree(long folderId) =>
+        Make("folderSubtreeSelector", ("folder_id", folderId));
+
     /// <summary>Match by document name.</summary>
     public static Selector Name(string value) =>
         Make("nameSelector", ("name", value));
@@ -116,6 +120,18 @@ public sealed class Selector
 
     /// <summary>Flag selector: documents with a running workflow.</summary>
     public static Selector HasRunningWorkflow() => Make("hasRunningWorkflowSelector");
+
+    /// <summary>
+    /// Flag selector: documents with a classification result (use in <c>exclude</c> for
+    /// the unclassified ones).
+    /// </summary>
+    public static Selector HasClassification() => Make("hasClassificationSelector");
+
+    /// <summary>
+    /// Flag selector: documents that have run classification (use in <c>exclude</c> for
+    /// those that never ran a classification job).
+    /// </summary>
+    public static Selector HasClassificationWorkflow() => Make("hasClassificationWorkflowSelector");
 
     /// <summary>
     /// Forward-compat escape hatch: build a selector of any <paramref name="type"/> with raw
