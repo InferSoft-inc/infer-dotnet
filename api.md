@@ -94,6 +94,9 @@ Conventions:
 
 - `Estimate(step, selectors?, documentIds?, prompts?, synchronous=false, idempotencyKey?) -> CreditsEstimate`
   — **write**: `POST /api/jobs/credits/estimate`.
+- `Quote(step, selectors?, documentIds?, prompts?, synchronous=false) -> CreditsQuote`
+  — **read**: `POST /api/jobs/credits/quote`. Same formula as `Estimate` but
+  nothing is reserved and no id is returned; use it while composing a job.
 - `Start(creditsId, projectId?, idempotencyKey?) -> Job` — **write**: `POST /api/jobs/start`.
 - `Run(step, selectors?, documentIds?, prompts?, synchronous=false, projectId?, maxCredits?, wait=false, maxWait?, pollInterval?) -> Job`
   — **composite**: `POST /api/jobs/credits/estimate` + `POST /api/jobs/start` (gated by

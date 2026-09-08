@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Text.Json;
 
 namespace Infersoft;
 
@@ -15,6 +16,12 @@ public sealed class PromptMeta : InfersoftModel
     public string? Description { get; init; }
 
     public DataTypeName DataType { get; init; }
+
+    public string? DisplayType { get; init; }
+
+    public string? GroupName { get; init; }
+
+    public JsonElement? Example { get; init; }
 
     public string DocumentClass { get; init; } = "";
 

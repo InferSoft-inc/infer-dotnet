@@ -41,6 +41,10 @@ public sealed class ExtractionResultValue : InfersoftModel
 
     public DataTypeName? DataType { get; init; }
 
+    public string? DisplayType { get; init; }
+
+    public string? GroupName { get; init; }
+
     /// <summary>The parsed value (raw JSON; its shape depends on <see cref="DataType"/>).</summary>
     public JsonElement? ParsedValue { get; init; }
 

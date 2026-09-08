@@ -15,6 +15,16 @@ public sealed class CreditsEstimate : InfersoftModel
     public string Id { get; init; } = "";
 }
 
+/// <summary>A read-only credit calculation. Carries no id because nothing was reserved.</summary>
+public sealed class CreditsQuote : InfersoftModel
+{
+    public int TotalCredits { get; init; }
+
+    public int PageCount { get; init; }
+
+    public int DocumentCount { get; init; }
+}
+
 /// <summary>A processing job.</summary>
 public sealed class Job : InfersoftModel
 {
