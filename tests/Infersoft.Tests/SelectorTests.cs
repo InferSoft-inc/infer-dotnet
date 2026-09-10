@@ -31,17 +31,12 @@ public class SelectorTests
     }
 
     [Fact]
-    public void Classification_flag_selectors_emit_only_their_type()
+    public void Classification_flag_selector_emits_only_its_type()
     {
         var classification = Serialize(Selector.HasClassification());
 
         Assert.Equal("hasClassificationSelector", classification.GetProperty("type").GetString());
         Assert.Single(classification.EnumerateObject());
-
-        var workflow = Serialize(Selector.HasClassificationWorkflow());
-
-        Assert.Equal("hasClassificationWorkflowSelector", workflow.GetProperty("type").GetString());
-        Assert.Single(workflow.EnumerateObject());
     }
 
     [Fact]

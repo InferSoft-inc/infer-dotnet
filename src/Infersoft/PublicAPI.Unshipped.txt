@@ -626,7 +626,6 @@ static Infersoft.Selector.Folder(long folderId) -> Infersoft.Selector!
 static Infersoft.Selector.FolderSubtree(long folderId) -> Infersoft.Selector!
 static Infersoft.Selector.HasChildren() -> Infersoft.Selector!
 static Infersoft.Selector.HasClassification() -> Infersoft.Selector!
-static Infersoft.Selector.HasClassificationWorkflow() -> Infersoft.Selector!
 static Infersoft.Selector.HasRunningWorkflow() -> Infersoft.Selector!
 static Infersoft.Selector.IsValid() -> Infersoft.Selector!
 static Infersoft.Selector.Job(System.Collections.Generic.IEnumerable<long>! ids) -> Infersoft.Selector!

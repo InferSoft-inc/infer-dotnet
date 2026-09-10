@@ -128,12 +128,6 @@ public sealed class Selector
     public static Selector HasClassification() => Make("hasClassificationSelector");
 
     /// <summary>
-    /// Flag selector: documents that have run classification (use in <c>exclude</c> for
-    /// those that never ran a classification job).
-    /// </summary>
-    public static Selector HasClassificationWorkflow() => Make("hasClassificationWorkflowSelector");
-
-    /// <summary>
     /// Forward-compat escape hatch: build a selector of any <paramref name="type"/> with raw
     /// <paramref name="fields"/>, for a selector this SDK build does not yet model.
     /// </summary>
