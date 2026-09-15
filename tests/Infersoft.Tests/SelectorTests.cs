@@ -22,6 +22,24 @@ public class SelectorTests
     }
 
     [Fact]
+    public void Folder_subtree_selector_emits_type_and_folder_id()
+    {
+        var element = Serialize(Selector.FolderSubtree(9));
+
+        Assert.Equal("folderSubtreeSelector", element.GetProperty("type").GetString());
+        Assert.Equal(9, element.GetProperty("folder_id").GetInt64());
+    }
+
+    [Fact]
+    public void Classification_flag_selector_emits_only_its_type()
+    {
+        var classification = Serialize(Selector.HasClassification());
+
+        Assert.Equal("hasClassificationSelector", classification.GetProperty("type").GetString());
+        Assert.Single(classification.EnumerateObject());
+    }
+
+    [Fact]
     public void Selectors_build_emits_include_and_exclude()
     {
         var selectors = Selectors.Build(

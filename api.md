@@ -125,7 +125,9 @@ var selectors = Selectors.Build(
   `Selector.CreatedAt(createdFrom?, createdTo?)` · `Selector.Size(sizeFrom?, sizeTo?)` ·
   `Selector.PageCount(pageCountFrom?, pageCountTo?)` · `Selector.SourceDocument(ids)` ·
   `Selector.Project(projectId, addedFrom?, addedTo?)` · `Selector.Job(ids)` ·
+  `Selector.FolderSubtree(folderId)` ·
   `Selector.IsValid()` · `Selector.HasChildren()` · `Selector.HasRunningWorkflow()` ·
+  `Selector.HasClassification()` ·
   `Selector.Raw(type, fields)` (forward-compat escape hatch for not-yet-typed selectors).
 
 Anywhere a method takes `selectors:`, it also accepts a `documentIds:` shortcut (wrapped into a

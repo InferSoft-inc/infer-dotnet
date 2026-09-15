@@ -623,7 +623,9 @@ static Infersoft.Selector.CreatedAt(string? createdFrom = null, string? createdT
 static Infersoft.Selector.DocumentClass(System.Collections.Generic.IEnumerable<string!>! classes) -> Infersoft.Selector!
 static Infersoft.Selector.File(System.Collections.Generic.IEnumerable<long>! ids) -> Infersoft.Selector!
 static Infersoft.Selector.Folder(long folderId) -> Infersoft.Selector!
+static Infersoft.Selector.FolderSubtree(long folderId) -> Infersoft.Selector!
 static Infersoft.Selector.HasChildren() -> Infersoft.Selector!
+static Infersoft.Selector.HasClassification() -> Infersoft.Selector!
 static Infersoft.Selector.HasRunningWorkflow() -> Infersoft.Selector!
 static Infersoft.Selector.IsValid() -> Infersoft.Selector!
 static Infersoft.Selector.Job(System.Collections.Generic.IEnumerable<long>! ids) -> Infersoft.Selector!
