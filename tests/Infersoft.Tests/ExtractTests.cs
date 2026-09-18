@@ -1,6 +1,7 @@
 using System;
 using System.Net;
 using System.Net.Http;
+using System.Text.Json;
 using System.Threading.Tasks;
 using Infersoft;
 using Infersoft.Tests.Support;
@@ -61,7 +62,7 @@ public class ExtractTests
 
             Assert.Equal(JobStatus.Completed, result.Job.Status);
             Assert.Null(result.Upload);
-            Assert.Equal(42, result.Values[5]["total"]!.Value.GetInt32());
+            Assert.Equal(42, ((JsonElement)result.Values[5]["total"]!).GetInt32());
         }
     }
 

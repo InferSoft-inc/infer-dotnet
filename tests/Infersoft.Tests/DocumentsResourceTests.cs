@@ -169,7 +169,7 @@ public class DocumentsResourceTests
         using (client)
         {
             var values = client.Documents.GetValues(prompts: new long[] { 10 }, documentIds: new long[] { 1 });
-            Assert.Equal(42, values[1]["total"]!.Value.GetInt32());
+            Assert.Equal(42, ((JsonElement)values[1]["total"]!).GetInt32());
         }
     }
 

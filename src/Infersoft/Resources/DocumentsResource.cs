@@ -128,14 +128,14 @@ public sealed partial class DocumentsResource
     }
 
     /// <summary>Fetch extraction values as plain dictionaries: <c>{documentId: {field: parsedValue}}</c>.</summary>
-    public IReadOnlyDictionary<long, IReadOnlyDictionary<object, JsonElement?>> GetValues(
+    public IReadOnlyDictionary<long, IReadOnlyDictionary<object, object?>> GetValues(
         IEnumerable<long> prompts,
         Selectors? selectors = null,
         IEnumerable<long>? documentIds = null,
         ExtractionKey keyBy = ExtractionKey.Name,
         CancellationToken cancellationToken = default)
     {
-        var output = new Dictionary<long, IReadOnlyDictionary<object, JsonElement?>>();
+        var output = new Dictionary<long, IReadOnlyDictionary<object, object?>>();
         foreach (var doc in Iterate(selectors, documentIds, prompts, cancellationToken: cancellationToken))
         {
             output[doc.Id] = ExtractionFlattener.Flatten(doc, keyBy);
@@ -145,14 +145,14 @@ public sealed partial class DocumentsResource
     }
 
     /// <inheritdoc cref="GetValues"/>
-    public async Task<IReadOnlyDictionary<long, IReadOnlyDictionary<object, JsonElement?>>> GetValuesAsync(
+    public async Task<IReadOnlyDictionary<long, IReadOnlyDictionary<object, object?>>> GetValuesAsync(
         IEnumerable<long> prompts,
         Selectors? selectors = null,
         IEnumerable<long>? documentIds = null,
         ExtractionKey keyBy = ExtractionKey.Name,
         CancellationToken cancellationToken = default)
     {
-        var output = new Dictionary<long, IReadOnlyDictionary<object, JsonElement?>>();
+        var output = new Dictionary<long, IReadOnlyDictionary<object, object?>>();
         await foreach (var doc in IterateAsync(selectors, documentIds, prompts, cancellationToken: cancellationToken).ConfigureAwait(false))
         {
             output[doc.Id] = ExtractionFlattener.Flatten(doc, keyBy);

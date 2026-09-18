@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -34,7 +35,12 @@ public sealed class ExtractionTracebackItem : InfersoftModel
     public IReadOnlyList<string> Issues { get; init; } = Array.Empty<string>();
 }
 
-/// <summary>An extracted value plus its provenance.</summary>
+/// <summary>
+/// An extracted value plus its provenance. Exactly one of <see cref="ValueText"/>,
+/// <see cref="ValueNumber"/>, <see cref="ValueBool"/> and <see cref="ValueDate"/> is set when
+/// the raw value could be typed, chosen by <see cref="DataType"/>; none is set when it could not
+/// (<see cref="RawValue"/> still carries the text). Read <see cref="Value"/> for the typed value.
+/// </summary>
 public sealed class ExtractionResultValue : InfersoftModel
 {
     public string? Name { get; init; }
@@ -45,8 +51,56 @@ public sealed class ExtractionResultValue : InfersoftModel
 
     public string? GroupName { get; init; }
 
-    /// <summary>The parsed value (raw JSON; its shape depends on <see cref="DataType"/>).</summary>
+    /// <summary>
+    /// Deprecated: read <see cref="Value"/> or the <c>Value*</c> properties instead. Numbers arrive
+    /// here as JSON numbers and may lose precision; dates arrive as <c>YYYY-MM-DD</c> strings.
+    /// </summary>
     public JsonElement? ParsedValue { get; init; }
+
+    /// <summary>Typed value when <see cref="DataType"/> is <c>String</c>.</summary>
+    public string? ValueText { get; init; }
+
+    /// <summary>
+    /// Typed value when <see cref="DataType"/> is <c>Number</c>, as the server's decimal string with
+    /// full precision. See <see cref="ValueNumberDecimal"/> for a <see cref="decimal"/>.
+    /// </summary>
+    public string? ValueNumber { get; init; }
+
+    /// <summary>Typed value when <see cref="DataType"/> is <c>Boolean</c>.</summary>
+    public bool? ValueBool { get; init; }
+
+    /// <summary>Typed value when <see cref="DataType"/> is <c>Date</c> (date part only, <see cref="DateTimeKind.Unspecified"/>).</summary>
+    public DateTime? ValueDate { get; init; }
+
+    /// <summary>
+    /// <see cref="ValueNumber"/> as a <see cref="decimal"/>, or <c>null</c> when it is unset or
+    /// exceeds the range of <see cref="decimal"/>.
+    /// </summary>
+    [JsonIgnore]
+    public decimal? ValueNumberDecimal =>
+        ValueNumber is not null &&
+        decimal.TryParse(ValueNumber, NumberStyles.Number, CultureInfo.InvariantCulture, out var d)
+            ? d
+            : null;
+
+    /// <summary>
+    /// The typed value: a <see cref="string"/>, <see cref="decimal"/> (or the decimal string when it
+    /// exceeds <see cref="decimal"/>), <see cref="bool"/> or <see cref="DateTime"/>, whichever
+    /// <c>Value*</c> property is set; falls back to <see cref="ParsedValue"/> against servers that
+    /// predate the typed fields.
+    /// </summary>
+    [JsonIgnore]
+    public object? Value
+    {
+        get
+        {
+            if (ValueText is not null) return ValueText;
+            if (ValueNumber is not null) return (object?)ValueNumberDecimal ?? ValueNumber;
+            if (ValueBool is not null) return ValueBool;
+            if (ValueDate is not null) return ValueDate;
+            return ParsedValue;
+        }
+    }
 
     public string? RawValue { get; init; }
 

@@ -16,7 +16,7 @@ public sealed class ExtractResult
         Job job,
         UploadResult? upload,
         IReadOnlyList<DocumentSummary> documents,
-        IReadOnlyDictionary<long, IReadOnlyDictionary<object, JsonElement?>> values)
+        IReadOnlyDictionary<long, IReadOnlyDictionary<object, object?>> values)
     {
         Job = job;
         Upload = upload;
@@ -34,5 +34,5 @@ public sealed class ExtractResult
     public IReadOnlyList<DocumentSummary> Documents { get; }
 
     /// <summary>Extraction values flattened to <c>{documentId: {field: parsedValue}}</c>.</summary>
-    public IReadOnlyDictionary<long, IReadOnlyDictionary<object, JsonElement?>> Values { get; }
+    public IReadOnlyDictionary<long, IReadOnlyDictionary<object, object?>> Values { get; }
 }

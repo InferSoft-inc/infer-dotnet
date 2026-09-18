@@ -12,6 +12,11 @@ All notable changes to this project are documented here. The format is based on
   client-credentials authentication (lazy token fetch, caching, single-flight refresh, refresh on
   401), automatic retries with jittered backoff and idempotency keys, `Retry-After` handling, and
   per-request timeouts. Per-call-site overrides via `WithOptions(...)`.
+- `ExtractionResultValue.ValueText` / `ValueNumber` (decimal string, full precision, plus
+  `ValueNumberDecimal`) / `ValueBool` / `ValueDate`: the typed value the server derived from
+  `RawValue`, exactly one set per item, and `Value` returning whichever is set (falling back to the
+  deprecated `ParsedValue` against older servers). `GetValues` and `ExtractResult.Values` carry
+  these typed values.
 - **Documents** — get, search, iterate, `GetValues`; `Upload` / `UploadMany` /
   `UploadManyFromDirectory` (batching, `OnDuplicate` handling, partial-failure semantics);
   `WaitUntilReady`; `DownloadUrl` / `Download`; `MoveToFolder`; `BulkDelete`; `Delete`.
