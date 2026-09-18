@@ -41,9 +41,9 @@ Conventions:
 - `Iterate(...) -> IEnumerable<DocumentSummary>` / `IterateAsync(...) -> IAsyncEnumerable<DocumentSummary>`
   — **read**: paged `POST /api/documents/search`, fetched on demand.
 - `GetValues(prompts, selectors?, documentIds?, keyBy=Name) -> IReadOnlyDictionary<long, IReadOnlyDictionary<object, object?>>`
-  — values are typed (`decimal` for Number, `DateTime` for Date, `bool` for Boolean, `string` for String, `null` when the raw text could not be typed; `JsonElement` only from servers that predate the typed fields).
+  — values are typed: `decimal` for Number when the server's decimal string parses, otherwise that string unchanged; `DateTime` for Date, `bool` for Boolean, `string` for String; `null` when the raw text could not be typed; `JsonElement` only from servers that predate the typed fields.
   — **read/composite**: paged `POST /api/documents/search` with `prompts`, flattened to
-  `{documentId: {field: parsedValue}}`.
+  `{documentId: {field: value}}`.
 - `Upload(files, flatten=true, projectId?, projectName?, tagIds?, tagNames?, contentType?, onDuplicate=Allow, idempotencyKey?, wait=false, maxWait?, pollInterval?) -> UploadResult`
   — **write/composite**: `POST /api/uploads` (plans the batch, ≤ `MaxBatchFiles`=100), then one
   presigned `PUT` per file (unauthenticated, to S3); with `wait: true`, polled

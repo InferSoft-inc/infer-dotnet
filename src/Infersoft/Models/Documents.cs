@@ -79,7 +79,7 @@ public sealed class ExtractionResultValue : InfersoftModel
     [JsonIgnore]
     public decimal? ValueNumberDecimal =>
         ValueNumber is not null &&
-        decimal.TryParse(ValueNumber, NumberStyles.Number, CultureInfo.InvariantCulture, out var d)
+        decimal.TryParse(ValueNumber, NumberStyles.Number | NumberStyles.AllowExponent, CultureInfo.InvariantCulture, out var d)
             ? d
             : null;
 

@@ -56,7 +56,8 @@ public class ModelTests
             "{\"prompt_id\":4,\"value\":{\"data_type\":\"String\",\"value_text\":\"  Acme  \"}}," +
             "{\"prompt_id\":5,\"value\":{\"data_type\":\"Date\",\"parsed_value\":null,\"raw_value\":\"Not Found\"}}," +
             "{\"prompt_id\":6,\"value\":{\"data_type\":\"Number\",\"parsed_value\":42}}," +
-            "{\"prompt_id\":7,\"value\":{\"data_type\":\"Number\",\"value_number\":\"1e400\"}}]}";
+            "{\"prompt_id\":7,\"value\":{\"data_type\":\"Number\",\"value_number\":\"1e400\"}}," +
+            "{\"prompt_id\":8,\"value\":{\"data_type\":\"Number\",\"value_number\":\"1e2\"}}]}";
 
         var doc = JsonSerializer.Deserialize<DocumentSummary>(json, InfersoftJson.Options)!;
         var by = doc.Extractions;
@@ -82,6 +83,9 @@ public class ModelTests
 
         Assert.Null(by[7].ValueNumberDecimal);
         Assert.Equal("1e400", by[7].Value);
+
+        Assert.Equal(100m, by[8].ValueNumberDecimal);
+        Assert.Equal(100m, Assert.IsType<decimal>(by[8].Value));
 
         var values = ExtractionFlattener.Flatten(doc, ExtractionKey.PromptId);
         Assert.Equal(0.12345678901234567890123m, values[1L]);
