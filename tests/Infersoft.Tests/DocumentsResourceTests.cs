@@ -157,19 +157,31 @@ public class DocumentsResourceTests
         }
     }
 
-    [Fact]
-    public void GetValues_flattens_by_name()
+    [Theory]
+    [InlineData(true)]
+    [InlineData(false)]
+    public async Task GetValues_flattens_by_name(bool useAsync)
     {
         var docJson = DocJson.Replace(
             "\"has_active_workflow\":false}",
-            "\"has_active_workflow\":false,\"extraction_results\":[{\"prompt_id\":10,\"value\":{\"name\":\"total\",\"parsed_value\":42}}]}",
+            "\"has_active_workflow\":false,\"extraction_results\":[" +
+            "{\"prompt_id\":10,\"value\":{\"name\":\"total\",\"parsed_value\":42}}," +
+            "{\"prompt_id\":11,\"value\":{\"name\":\"royalty\",\"data_type\":\"Number\"," +
+            "\"value_number\":\"0.125\",\"raw_value\":\"1/8\"}}," +
+            "{\"prompt_id\":12,\"value\":{\"name\":\"executed_on\",\"data_type\":\"Date\"," +
+            "\"raw_value\":\"Not Found\"}}]}",
             StringComparison.Ordinal);
         var (client, _) = TestClientFactory.Create((req, i, ct) =>
             Responses.Json(HttpStatusCode.OK, Page(docJson, hasMore: false)));
         using (client)
         {
-            var values = client.Documents.GetValues(prompts: new long[] { 10 }, documentIds: new long[] { 1 });
+            var values = useAsync
+                ? await client.Documents.GetValuesAsync(prompts: new long[] { 10 }, documentIds: new long[] { 1 })
+                : client.Documents.GetValues(prompts: new long[] { 10 }, documentIds: new long[] { 1 });
+
             Assert.Equal(42, ((JsonElement)values[1]["total"]!).GetInt32());
+            Assert.Equal(0.125m, Assert.IsType<decimal>(values[1]["royalty"]));
+            Assert.Null(values[1]["executed_on"]);
         }
     }
 

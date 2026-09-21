@@ -14,7 +14,12 @@ public class ExtractTests
     private const string ResultsPage =
         "{\"items\":[{\"id\":5,\"organization_id\":\"o\",\"name\":\"a\",\"status\":\"ready\"," +
         "\"is_valid\":true,\"created_at\":\"2026-01-01T00:00:00Z\",\"has_active_workflow\":false," +
-        "\"extraction_results\":[{\"prompt_id\":10,\"value\":{\"name\":\"total\",\"parsed_value\":42}}]}]," +
+        "\"extraction_results\":[" +
+        "{\"prompt_id\":10,\"value\":{\"name\":\"total\",\"parsed_value\":42}}," +
+        "{\"prompt_id\":11,\"value\":{\"name\":\"royalty\",\"data_type\":\"Number\"," +
+        "\"value_number\":\"0.125\",\"raw_value\":\"1/8\"}}," +
+        "{\"prompt_id\":12,\"value\":{\"name\":\"executed_on\",\"data_type\":\"Date\"," +
+        "\"raw_value\":\"Not Found\"}}]}]," +
         "\"page\":1,\"page_size\":50,\"has_more\":false}";
 
     private static HttpResponseMessage JobJson(string status, long id) =>
@@ -63,6 +68,8 @@ public class ExtractTests
             Assert.Equal(JobStatus.Completed, result.Job.Status);
             Assert.Null(result.Upload);
             Assert.Equal(42, ((JsonElement)result.Values[5]["total"]!).GetInt32());
+            Assert.Equal(0.125m, Assert.IsType<decimal>(result.Values[5]["royalty"]));
+            Assert.Null(result.Values[5]["executed_on"]);
         }
     }
 
