@@ -131,7 +131,7 @@ public sealed partial class InfersoftClient
         return prompts.ToList();
     }
 
-    private static Dictionary<long, IReadOnlyDictionary<object, JsonElement?>> FlattenAll(
+    private static Dictionary<long, IReadOnlyDictionary<object, object?>> FlattenAll(
         IReadOnlyList<DocumentSummary> documents, ExtractionKey keyBy) =>
         documents.ToDictionary(doc => doc.Id, doc => ExtractionFlattener.Flatten(doc, keyBy));
 }

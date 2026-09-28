@@ -88,8 +88,8 @@ Infersoft.DocumentsResource.DownloadUrl(long documentId, System.Threading.Cancel
 Infersoft.DocumentsResource.DownloadUrlAsync(long documentId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<Infersoft.DownloadResponse!>!
 Infersoft.DocumentsResource.Get(long documentId, System.Collections.Generic.IEnumerable<long>? promptIds = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> Infersoft.DocumentSummary!
 Infersoft.DocumentsResource.GetAsync(long documentId, System.Collections.Generic.IEnumerable<long>? promptIds = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<Infersoft.DocumentSummary!>!
-Infersoft.DocumentsResource.GetValues(System.Collections.Generic.IEnumerable<long>! prompts, Infersoft.Selectors? selectors = null, System.Collections.Generic.IEnumerable<long>? documentIds = null, Infersoft.ExtractionKey keyBy = Infersoft.ExtractionKey.Name, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Collections.Generic.IReadOnlyDictionary<long, System.Collections.Generic.IReadOnlyDictionary<object!, System.Text.Json.JsonElement?>!>!
-Infersoft.DocumentsResource.GetValuesAsync(System.Collections.Generic.IEnumerable<long>! prompts, Infersoft.Selectors? selectors = null, System.Collections.Generic.IEnumerable<long>? documentIds = null, Infersoft.ExtractionKey keyBy = Infersoft.ExtractionKey.Name, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<System.Collections.Generic.IReadOnlyDictionary<long, System.Collections.Generic.IReadOnlyDictionary<object!, System.Text.Json.JsonElement?>!>!>!
+Infersoft.DocumentsResource.GetValues(System.Collections.Generic.IEnumerable<long>! prompts, Infersoft.Selectors? selectors = null, System.Collections.Generic.IEnumerable<long>? documentIds = null, Infersoft.ExtractionKey keyBy = Infersoft.ExtractionKey.Name, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Collections.Generic.IReadOnlyDictionary<long, System.Collections.Generic.IReadOnlyDictionary<object!, object?>!>!
+Infersoft.DocumentsResource.GetValuesAsync(System.Collections.Generic.IEnumerable<long>! prompts, Infersoft.Selectors? selectors = null, System.Collections.Generic.IEnumerable<long>? documentIds = null, Infersoft.ExtractionKey keyBy = Infersoft.ExtractionKey.Name, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<System.Collections.Generic.IReadOnlyDictionary<long, System.Collections.Generic.IReadOnlyDictionary<object!, object?>!>!>!
 Infersoft.DocumentsResource.Iterate(Infersoft.Selectors? selectors = null, System.Collections.Generic.IEnumerable<long>? documentIds = null, System.Collections.Generic.IEnumerable<long>? prompts = null, int pageSize = 50, string! orderBy = "id", string! orderDir = "asc", System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Collections.Generic.IEnumerable<Infersoft.DocumentSummary!>!
 Infersoft.DocumentsResource.IterateAsync(Infersoft.Selectors? selectors = null, System.Collections.Generic.IEnumerable<long>? documentIds = null, System.Collections.Generic.IEnumerable<long>? prompts = null, int pageSize = 50, string! orderBy = "id", string! orderDir = "asc", System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Collections.Generic.IAsyncEnumerable<Infersoft.DocumentSummary!>!
 Infersoft.DocumentsResource.MoveToFolder(Infersoft.Selectors? selectors = null, System.Collections.Generic.IEnumerable<long>? documentIds = null, long? targetFolderId = null, string? idempotencyKey = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> Infersoft.MoveResult!
@@ -173,6 +173,16 @@ Infersoft.ExtractionResultValue.Name.get -> string?
 Infersoft.ExtractionResultValue.Name.init -> void
 Infersoft.ExtractionResultValue.ParsedValue.get -> System.Text.Json.JsonElement?
 Infersoft.ExtractionResultValue.ParsedValue.init -> void
+Infersoft.ExtractionResultValue.ValueText.get -> string?
+Infersoft.ExtractionResultValue.ValueText.init -> void
+Infersoft.ExtractionResultValue.ValueNumber.get -> string?
+Infersoft.ExtractionResultValue.ValueNumber.init -> void
+Infersoft.ExtractionResultValue.ValueBool.get -> bool?
+Infersoft.ExtractionResultValue.ValueBool.init -> void
+Infersoft.ExtractionResultValue.ValueDate.get -> System.DateTime?
+Infersoft.ExtractionResultValue.ValueDate.init -> void
+Infersoft.ExtractionResultValue.ValueNumberDecimal.get -> decimal?
+Infersoft.ExtractionResultValue.Value.get -> object?
 Infersoft.ExtractionResultValue.RawValue.get -> string?
 Infersoft.ExtractionResultValue.RawValue.init -> void
 Infersoft.ExtractionResultValue.Readability.get -> double?
@@ -203,7 +213,7 @@ Infersoft.ExtractResult
 Infersoft.ExtractResult.Documents.get -> System.Collections.Generic.IReadOnlyList<Infersoft.DocumentSummary!>!
 Infersoft.ExtractResult.Job.get -> Infersoft.Job!
 Infersoft.ExtractResult.Upload.get -> Infersoft.UploadResult?
-Infersoft.ExtractResult.Values.get -> System.Collections.Generic.IReadOnlyDictionary<long, System.Collections.Generic.IReadOnlyDictionary<object!, System.Text.Json.JsonElement?>!>!
+Infersoft.ExtractResult.Values.get -> System.Collections.Generic.IReadOnlyDictionary<long, System.Collections.Generic.IReadOnlyDictionary<object!, object?>!>!
 Infersoft.FileOutcome
 Infersoft.FileOutcome.DocumentId.get -> long?
 Infersoft.FileOutcome.Duplicates.get -> System.Collections.Generic.IReadOnlyList<Infersoft.UploadDuplicate!>!

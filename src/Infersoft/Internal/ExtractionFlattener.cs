@@ -4,12 +4,12 @@ using System.Text.Json;
 
 namespace Infersoft.Internal;
 
-/// <summary>Flattens a document's extraction items to <c>{field: parsedValue}</c>.</summary>
+/// <summary>Flattens a document's extraction items to <c>{field: typed value}</c> (see <see cref="ExtractionResultValue.Value"/>).</summary>
 internal static class ExtractionFlattener
 {
-    public static IReadOnlyDictionary<object, JsonElement?> Flatten(DocumentSummary document, ExtractionKey keyBy)
+    public static IReadOnlyDictionary<object, object?> Flatten(DocumentSummary document, ExtractionKey keyBy)
     {
-        var row = new Dictionary<object, JsonElement?>();
+        var row = new Dictionary<object, object?>();
         foreach (var item in document.ExtractionResults ?? Array.Empty<DocumentExtractionResultItem>())
         {
             object key = keyBy == ExtractionKey.Name && !string.IsNullOrEmpty(item.Value.Name)
@@ -24,7 +24,7 @@ internal static class ExtractionFlattener
                     nameof(keyBy));
             }
 
-            row[key] = item.Value.ParsedValue;
+            row[key] = item.Value.Value;
         }
 
         return row;
