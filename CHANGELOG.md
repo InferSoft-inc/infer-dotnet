@@ -6,6 +6,8 @@ All notable changes to this project are documented here. The format is based on
 
 ## [Unreleased]
 
+## [0.1.1] - 2026-09-28
+
 ### Added
 - Initial release of the Infersoft .NET SDK, targeting `net8.0` and `netstandard2.0`.
 - `InfersoftClient` exposing synchronous and asynchronous method pairs, with OAuth2
