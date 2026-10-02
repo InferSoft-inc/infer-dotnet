@@ -109,6 +109,13 @@ public sealed class ExtractionResultValue : InfersoftModel
     public IReadOnlyList<string> Issues { get; init; } = Array.Empty<string>();
 
     public double? Readability { get; init; }
+
+    /// <summary>
+    /// <c>true</c> while a workflow running on the document includes this prompt. A prompt with no
+    /// result yet is returned with this set and no value properties; on a re-run the values may be
+    /// the previous or the new result until the workflow finishes.
+    /// </summary>
+    public bool IsProcessing { get; init; }
 }
 
 /// <summary>One prompt's extracted value, returned when prompt ids are passed to document search/get.</summary>
