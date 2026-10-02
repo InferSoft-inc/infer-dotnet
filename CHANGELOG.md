@@ -6,6 +6,17 @@ All notable changes to this project are documented here. The format is based on
 
 ## [Unreleased]
 
+## [0.1.2] - 2026-10-01
+
+### Added
+- `ExtractionResultValue.IsProcessing`: `true` while a workflow running on the document includes
+  the prompt. Document get/search/iterate now also return an item for each requested prompt that is
+  still processing and has no result yet, with `IsProcessing` set and no value properties.
+
+### Changed
+- `GetValues`, job results values and `ExtractResult.Values` leave out prompts that are still
+  processing without a result, so their output is unchanged by the new items.
+
 ## [0.1.1] - 2026-09-28
 
 ### Added

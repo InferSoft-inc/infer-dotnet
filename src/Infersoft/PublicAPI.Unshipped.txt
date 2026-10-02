@@ -169,6 +169,8 @@ Infersoft.ExtractionResultValue.GroupName.get -> string?
 Infersoft.ExtractionResultValue.GroupName.init -> void
 Infersoft.ExtractionResultValue.Issues.get -> System.Collections.Generic.IReadOnlyList<string!>!
 Infersoft.ExtractionResultValue.Issues.init -> void
+Infersoft.ExtractionResultValue.IsProcessing.get -> bool
+Infersoft.ExtractionResultValue.IsProcessing.init -> void
 Infersoft.ExtractionResultValue.Name.get -> string?
 Infersoft.ExtractionResultValue.Name.init -> void
 Infersoft.ExtractionResultValue.ParsedValue.get -> System.Text.Json.JsonElement?
