@@ -4,7 +4,10 @@ using System.Text.Json;
 
 namespace Infersoft.Internal;
 
-/// <summary>Flattens a document's extraction items to <c>{field: typed value}</c> (see <see cref="ExtractionResultValue.Value"/>).</summary>
+/// <summary>
+/// Flattens a document's extraction items to <c>{field: typed value}</c> (see <see cref="ExtractionResultValue.Value"/>),
+/// leaving out prompts still processing without a result.
+/// </summary>
 internal static class ExtractionFlattener
 {
     public static IReadOnlyDictionary<object, object?> Flatten(DocumentSummary document, ExtractionKey keyBy)
@@ -12,6 +15,11 @@ internal static class ExtractionFlattener
         var row = new Dictionary<object, object?>();
         foreach (var item in document.ExtractionResults ?? Array.Empty<DocumentExtractionResultItem>())
         {
+            if (item.Value.IsProcessing && item.Value.RawValue is null && item.Value.Value is null)
+            {
+                continue;
+            }
+
             object key = keyBy == ExtractionKey.Name && !string.IsNullOrEmpty(item.Value.Name)
                 ? item.Value.Name!
                 : item.PromptId;
