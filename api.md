@@ -41,13 +41,16 @@ Conventions:
 - `Iterate(...) -> IEnumerable<DocumentSummary>` / `IterateAsync(...) -> IAsyncEnumerable<DocumentSummary>`
   — **read**: paged `POST /api/documents/search`, fetched on demand.
 - `GetValues(prompts, selectors?, documentIds?, keyBy=Name) -> IReadOnlyDictionary<long, IReadOnlyDictionary<object, object?>>`
-  — values are typed: `decimal` for Number when the server's decimal string parses, otherwise that string unchanged; `DateTime` for Date, `bool` for Boolean, `string` for String; `null` when the raw text could not be typed; `JsonElement` only from servers that predate the typed fields.
   — **read/composite**: paged `POST /api/documents/search` with `prompts`, flattened to
-  `{documentId: {field: value}}`.
+  `{documentId: {field: value}}`. Values are `ExtractionResultValue.Value`: `decimal` for Number
+  when the server's decimal string parses, otherwise that string unchanged; `DateTime` for Date,
+  `bool` for Boolean, `string` for String; when no typed property is set, the deprecated
+  `ParsedValue` (`JsonElement?`). Prompts still processing without a result are left out.
 - `Upload(files, flatten=true, projectId?, projectName?, tagIds?, tagNames?, contentType?, onDuplicate=Allow, idempotencyKey?, wait=false, maxWait?, pollInterval?) -> UploadResult`
   — **write/composite**: `POST /api/uploads` (plans the batch, ≤ `MaxBatchFiles`=100), then one
-  presigned `PUT` per file (unauthenticated, to S3); with `wait: true`, polled
-  `POST /api/documents/search` until every document is `ready`.
+  unauthenticated `PUT` per file to its CloudFront-signed URL; with `wait: true`, polled
+  `POST /api/documents/search` until every document is `ready`. `onDuplicate: OnDuplicate.Block`
+  also sends `DELETE /api/documents/{id}` for each skipped placeholder.
 - `UploadMany(files, …) -> UploadResult` / `UploadManyFromDirectory(directory, searchPattern="*", …) -> UploadResult`
   — **write/composite**: bulk uploads of any size; one `Upload` batch per `batchSize` files with
   deterministic per-batch keys derived from the base `idempotencyKey`; `onBatch` progress callback.

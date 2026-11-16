@@ -6,7 +6,7 @@ All notable changes to this project are documented here. The format is based on
 
 ## [Unreleased]
 
-## [0.1.2] - 2026-10-01
+## [0.1.2] - 2026-10-21
 
 ### Added
 - `ExtractionResultValue.IsProcessing`: `true` while a workflow running on the document includes
@@ -20,26 +20,37 @@ All notable changes to this project are documented here. The format is based on
 ## [0.1.1] - 2026-09-28
 
 ### Added
+- `Jobs.Quote` / `QuoteAsync`: read-only credit calculation via `POST /api/jobs/credits/quote`
+  (nothing reserved, no id returned), returning the new `CreditsQuote` model (`TotalCredits`,
+  `PageCount`, `DocumentCount`).
+- `ExtractionResultValue.ValueText` / `ValueNumber` (decimal string, full precision, plus
+  `ValueNumberDecimal`) / `ValueBool` / `ValueDate`: the typed value the server derived from
+  `RawValue`, exactly one set per item, and `Value` returning whichever is set (falling back to the
+  deprecated `ParsedValue` against older servers).
+- `PromptMeta.Example`, and `DisplayType` / `GroupName` on `PromptMeta` and `ExtractionResultValue`.
+- `Selector.FolderSubtree(folderId)` and `Selector.HasClassification()`.
+
+### Changed
+- `GetValues` and `ExtractResult.Values` now carry the typed `Value` (`object?`) instead of the raw
+  `JsonElement?` parsed value.
+
+## [0.1.0] - 2026-06-18
+
+### Added
 - Initial release of the Infersoft .NET SDK, targeting `net8.0` and `netstandard2.0`.
 - `InfersoftClient` exposing synchronous and asynchronous method pairs, with OAuth2
   client-credentials authentication (lazy token fetch, caching, single-flight refresh, refresh on
   401), automatic retries with jittered backoff and idempotency keys, `Retry-After` handling, and
   per-request timeouts. Per-call-site overrides via `WithOptions(...)`.
-- `ExtractionResultValue.ValueText` / `ValueNumber` (decimal string, full precision, plus
-  `ValueNumberDecimal`) / `ValueBool` / `ValueDate`: the typed value the server derived from
-  `RawValue`, exactly one set per item, and `Value` returning whichever is set (falling back to the
-  deprecated `ParsedValue` against older servers). `GetValues` and `ExtractResult.Values` carry
-  these typed values.
-- **Documents** — get, search, iterate, `GetValues`; `Upload` / `UploadMany` /
+- **Documents**: get, search, iterate, `GetValues`; `Upload` / `UploadMany` /
   `UploadManyFromDirectory` (batching, `OnDuplicate` handling, partial-failure semantics);
   `WaitUntilReady`; `DownloadUrl` / `Download`; `MoveToFolder`; `BulkDelete`; `Delete`.
-- **Jobs** — `Estimate`, `Quote` (read-only credit calculation, nothing reserved), `Start`,
-  `Run` (with a `maxCredits` budget guard), `Get`, `Wait`, `Results`, `Search`, `Iterate`,
-  with finite-by-default waiting/polling.
-- **Projects** — `Create`, `Get`, `GetOrCreate`, `Search`, `Iterate`, `AssignDocuments`.
-- **Folders** — `Create`, `Get`, `Rename`, `Search`, `Iterate`, `Move`, `BulkDelete`,
+- **Jobs**: `Estimate`, `Start`, `Run` (with a `maxCredits` budget guard), `Get`, `Wait`,
+  `Results`, `Search`, `Iterate`, with finite-by-default waiting/polling.
+- **Projects**: `Create`, `Get`, `GetOrCreate`, `Search`, `Iterate`, `AssignDocuments`.
+- **Folders**: `Create`, `Get`, `Rename`, `Search`, `Iterate`, `Move`, `BulkDelete`,
   `ResolvePaths`, `EnsurePath`.
-- **Prompts** — `Search`, `Iterate`.
+- **Prompts**: `Search`, `Iterate`.
 - The end-to-end `Extract` / `ExtractAsync` pipeline, typed `Selector` builders, forward-compatible
   response models (extensible enums + preserved unknown fields), and a full exception hierarchy
   rooted at `InfersoftException`.
