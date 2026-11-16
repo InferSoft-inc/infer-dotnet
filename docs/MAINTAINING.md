@@ -2,7 +2,7 @@
 
 `infer-dotnet` is the .NET client for the InferSoft public REST API ([infer-rest](https://github.com/InferSoft-inc/infer-rest)), published to NuGet as [`Infersoft`](https://www.nuget.org/packages/Infersoft). It is hand-written: there is no code generator, and every model, resource member and selector factory was written against infer-rest's OpenAPI spec (`rest-api/openapi.yaml` in infer-rest). The Python SDK, [infer-python](https://github.com/InferSoft-inc/infer-python), exposes the same surface, so an API change normally lands in both SDKs.
 
-The customer-facing docs are [README.md](../README.md) (behaviour and examples), [api.md](../api.md) (every public member and the REST calls it makes) and [CHANGELOG.md](../CHANGELOG.md). Keep all three accurate in the same PR as a code change. README.md is packed into the NuGet package (`PackageReadmeFile` in [`Infersoft.csproj`](../src/Infersoft/Infersoft.csproj)) and shown on nuget.org, which is why its links are absolute GitHub URLs.
+The customer-facing docs are [README.md](../README.md) (behavior and examples), [api.md](../api.md) (every public member and the REST calls it makes) and [CHANGELOG.md](../CHANGELOG.md). Keep all three accurate in the same PR as a code change. README.md is packed into the NuGet package (`PackageReadmeFile` in [`Infersoft.csproj`](../src/Infersoft/Infersoft.csproj)) and shown on nuget.org, which is why its links are absolute GitHub URLs.
 
 ## What the SDK talks to
 
@@ -11,7 +11,7 @@ flowchart LR
     app["Customer code<br/>InfersoftClient"]
     auth0["Auth0 token endpoint<br/>dev-noabnisxxguu0jp0.us.auth0.com/oauth/token"]
     rest["infer-rest public API<br/>https://api.infersoft.com /api/*"]
-    s3["CloudFront-signed file URLs<br/>(issued by infer-rest, served from S3)"]
+    s3["CloudFront-signed file URLs<br/>(signed by infer-facade, returned by infer-rest,<br/>served from S3)"]
     app -->|"POST client_credentials grant"| auth0
     app -->|"Bearer token, JSON"| rest
     app -->|"PUT file bytes (upload)<br/>GET file bytes (download)"| s3
@@ -27,15 +27,73 @@ The defaults (`https://api.infersoft.com` for base URL and audience, the `dev-no
 
 ### Pointing the SDK at the dev environment
 
-infer-rest's `DevInferRESTStack` runs on a different domain and Auth0 tenant. Override all three endpoints (env vars or `InfersoftClientOptions`) and use credentials from the dev tenant:
+infer-rest's `DevInferRESTStack` runs on a different domain and Auth0 tenant. Override all three endpoints (environment variables or `InfersoftClientOptions`) and use credentials from the dev tenant:
 
-| Env var | Option | Dev value |
+| Environment variable | Option | Dev value |
 |---|---|---|
 | `INFERSOFT_BASE_URL` | `BaseUrl` | `https://dev-api.infersoft.com` |
 | `INFERSOFT_TOKEN_URL` | `TokenUrl` | `https://dev-infersoft.us.auth0.com/oauth/token` |
 | `INFERSOFT_AUDIENCE` | `Audience` | `https://dev-api.infersoft.com` |
 
 The interactive API docs and `/openapi.yaml` are only served by the production API (`mountDocs` runs only when `ENVIRONMENT=production`): [api.infersoft.com/documentation](https://api.infersoft.com/documentation/).
+
+## Local development
+
+These are the commands CI runs (requires the .NET 8 SDK from `global.json`):
+
+```bash
+dotnet restore
+dotnet build --no-restore -c Release
+dotnet test --no-build -c Release
+dotnet format --verify-no-changes
+```
+
+Run one sample against a real account (names: `extract`, `search`, `bulk`, `download`, `concurrent`). The samples read credentials from `INFERSOFT_CLIENT_ID` and `INFERSOFT_CLIENT_SECRET`, plus the [dev endpoint overrides](#pointing-the-sdk-at-the-dev-environment) when targeting dev:
+
+```bash
+dotnet run --project examples/Infersoft.Examples -- extract
+```
+
+## CI
+
+[`.github/workflows/ci.yml`](../.github/workflows/ci.yml) runs on every pull request and on pushes to `main`: restore, Release build of both target frameworks (warnings as errors, public-API analyzer), tests, and `dotnet format --verify-no-changes`. It needs no secrets. Actions are pinned to commit SHAs.
+
+`main` is the default branch and the only release branch. [CODEOWNERS](../.github/CODEOWNERS) assigns every path to the `InferSoft-inc/infersoft-it` team.
+
+## Releasing to NuGet
+
+Versions follow Semantic Versioning. The version lives only in `<Version>` in [`Directory.Build.props`](../Directory.Build.props); it also becomes the `User-Agent` suffix (read from the assembly's informational version in [`Internal/SdkInfo.cs`](../src/Infersoft/Internal/SdkInfo.cs)).
+
+```mermaid
+sequenceDiagram
+    participant Dev as Maintainer
+    participant GH as GitHub (main)
+    participant Build as release.yml build job
+    participant Pub as release.yml publish job (env nuget)
+    participant NuGet as nuget.org
+    Dev->>GH: PR bumps Version and CHANGELOG, merge to main
+    Dev->>GH: push tag vX.Y.Z on the merge commit
+    GH->>Build: on push tags v*
+    Build->>Build: tag must equal Version
+    Build->>Build: restore, build, test, format check on the tagged commit
+    Build->>Build: dotnet pack (nupkg + snupkg), upload artifact nupkg
+    Build->>Pub: needs build
+    Pub->>NuGet: NuGet/login (OIDC) then dotnet nuget push --skip-duplicate
+```
+
+1. In a PR to `main`, set `<Version>` in `Directory.Build.props` and move the `## [Unreleased]` notes in CHANGELOG.md under `## [X.Y.Z] - <date>`. Merge it.
+2. Tag the merge commit and push the tag:
+   ```bash
+   git tag vX.Y.Z
+   git push origin vX.Y.Z
+   ```
+3. [`.github/workflows/release.yml`](../.github/workflows/release.yml) builds and publishes:
+   - **build & verify**: fails unless the tag without its `v` equals `<Version>`, reruns the CI gates with `ContinuousIntegrationBuild=true`, packs `src/Infersoft/Infersoft.csproj` (package plus `.snupkg` symbols, SourceLink embedded) and uploads it as the `nupkg` artifact.
+   - **publish to NuGet**: runs in the GitHub environment `nuget`, which only accepts refs matching the tag pattern `v*`. It has `id-token: write`; `NuGet/login` exchanges the GitHub OpenID Connect (OIDC) token for a short-lived API key using the nuget.org account named by the `NUGET_USER` repository or organization variable (a variable, not a secret), and `dotnet nuget push --skip-duplicate` uploads to `https://api.nuget.org/v3/index.json`. There is no stored NuGet API key. The nuget.org trusted publishing policy must stay registered for this repo and `release.yml`.
+
+A tag pushed on a commit whose `<Version>` does not match fails the version check and publishes nothing (the first `v0.1.1` push did this).
+
+Published versions and their dates are on [nuget.org](https://www.nuget.org/packages/Infersoft) and in [CHANGELOG.md](../CHANGELOG.md).
 
 ## Code layout
 
@@ -48,7 +106,7 @@ The interactive API docs and `/openapi.yaml` are only served by the production A
 | [`src/Infersoft/Models/`](../src/Infersoft/Models/) | Response models. All derive from `InfersoftModel`, whose `[JsonExtensionData] AdditionalData` keeps unknown server fields. Status and data-type enums are extensible (`ExtensibleEnumConverter`). |
 | [`src/Infersoft/Internal/Requests/`](../src/Infersoft/Internal/Requests/) | Request body types. JSON uses `JsonNamingPolicy.SnakeCaseLower` ([`Internal/InfersoftJson.cs`](../src/Infersoft/Internal/InfersoftJson.cs)). |
 | [`src/Infersoft/Internal/RetryPolicy.cs`](../src/Infersoft/Internal/RetryPolicy.cs) | Retry statuses, backoff, `Retry-After` handling, request-in-progress 409 detection. |
-| [`src/Infersoft/Internal/Polling.cs`](../src/Infersoft/Internal/Polling.cs) | Waiters and default budgets (30 min jobs, 10 min documents, 2 s interval). |
+| [`src/Infersoft/Internal/Polling.cs`](../src/Infersoft/Internal/Polling.cs) | Waiters and default budgets (30 minutes for jobs, 10 minutes for documents, 2 s interval). |
 | [`src/Infersoft/Internal/ApiErrors.cs`](../src/Infersoft/Internal/ApiErrors.cs), [`Exceptions/`](../src/Infersoft/Exceptions/) | Status code to exception mapping and the exception types. |
 | [`src/Infersoft/Selectors.cs`](../src/Infersoft/Selectors.cs) | `Selector` factories (one per selector type in the spec, plus `Raw`) and `Selectors.Build`. |
 | [`src/Infersoft/PublicAPI.*.txt`](../src/Infersoft/PublicAPI.Unshipped.txt) | Public API baseline for `Microsoft.CodeAnalysis.PublicApiAnalyzers`. Every public member must be listed or the build fails (warnings are errors). All entries currently live in `PublicAPI.Unshipped.txt`; `PublicAPI.Shipped.txt` only holds `#nullable enable`. |
@@ -96,7 +154,7 @@ These values live in both codebases. Change them together.
 
 | SDK | infer-rest |
 |---|---|
-| `RetryPolicy.ProblemTypeRequestInProgress` | `ProblemTypeRequestInProgress` in `rest-api/internal/idempotency/middleware.go` (the transient 409 the SDK retries, honouring `Retry-After`) |
+| `RetryPolicy.ProblemTypeRequestInProgress` | `ProblemTypeRequestInProgress` in `rest-api/internal/idempotency/middleware.go` (the transient 409 the SDK retries, honoring `Retry-After`) |
 | `DocumentsResource.MaxBatchFiles = 100` | `BatchUploadRequest.files` `maxItems: 100` |
 | `Selector` factories in [`Selectors.cs`](../src/Infersoft/Selectors.cs) (16 typed ones) | `Selector` union in the spec |
 | `JobStatus`, `DocumentStatus`, `DataTypeName` in [`Models/`](../src/Infersoft/Models/) | `JobStatus`, `DocumentStatus`, `DataTypeName` enums in the spec |
@@ -114,64 +172,6 @@ Enums are extensible: an unknown value deserializes, is treated as non-terminal 
 2. Update models, request types, resources and selector factories, add the new public members to `PublicAPI.Unshipped.txt`, and add tests that drive the new wire shape through the fake transport.
 3. Update api.md and README.md, and add an entry under `## [Unreleased]` in CHANGELOG.md.
 4. Make the same change in infer-python.
-
-## Local development
-
-These are the commands CI runs (requires the .NET 8 SDK from `global.json`):
-
-```bash
-dotnet restore
-dotnet build --no-restore -c Release
-dotnet test --no-build -c Release
-dotnet format --verify-no-changes
-```
-
-Run one sample against a real account (names: `extract`, `search`, `bulk`, `download`, `concurrent`):
-
-```bash
-dotnet run --project examples/Infersoft.Examples -- extract
-```
-
-## CI
-
-[`.github/workflows/ci.yml`](../.github/workflows/ci.yml) runs on every pull request and on pushes to `main`: restore, Release build of both target frameworks (warnings as errors, public-API analyzer), tests, and `dotnet format --verify-no-changes`. It needs no secrets. Actions are pinned to commit SHAs.
-
-`main` is the default branch and the only release branch. [CODEOWNERS](../.github/CODEOWNERS) assigns every path to the `InferSoft-inc/infersoft-it` team.
-
-## Releasing to NuGet
-
-Versions follow Semantic Versioning. The version lives only in `<Version>` in [`Directory.Build.props`](../Directory.Build.props); it also becomes the `User-Agent` suffix (read from the assembly's informational version in [`Internal/SdkInfo.cs`](../src/Infersoft/Internal/SdkInfo.cs)).
-
-```mermaid
-sequenceDiagram
-    participant Dev as Maintainer
-    participant GH as GitHub (main)
-    participant Build as release.yml build job
-    participant Pub as release.yml publish job (env nuget)
-    participant NuGet as nuget.org
-    Dev->>GH: PR bumps Version and CHANGELOG, merge to main
-    Dev->>GH: push tag vX.Y.Z on the merge commit
-    GH->>Build: on push tags v*
-    Build->>Build: tag must equal Version
-    Build->>Build: restore, build, test, format check on the tagged commit
-    Build->>Build: dotnet pack (nupkg + snupkg), upload artifact nupkg
-    Build->>Pub: needs build
-    Pub->>NuGet: NuGet/login (OIDC) then dotnet nuget push --skip-duplicate
-```
-
-1. In a PR to `main`, set `<Version>` in `Directory.Build.props` and move the `## [Unreleased]` notes in CHANGELOG.md under `## [X.Y.Z] - <date>`. Merge it.
-2. Tag the merge commit and push the tag:
-   ```bash
-   git tag vX.Y.Z
-   git push origin vX.Y.Z
-   ```
-3. [`.github/workflows/release.yml`](../.github/workflows/release.yml) builds and publishes:
-   - **build & verify**: fails unless the tag without its `v` equals `<Version>`, reruns the CI gates with `ContinuousIntegrationBuild=true`, packs `src/Infersoft/Infersoft.csproj` (package plus `.snupkg` symbols, SourceLink embedded) and uploads it as the `nupkg` artifact.
-   - **publish to NuGet**: runs in the GitHub environment `nuget`, which only accepts refs matching the tag pattern `v*`. It has `id-token: write`; `NuGet/login` exchanges the OIDC token for a short-lived API key using the nuget.org account named by the `NUGET_USER` repository or organization variable (a variable, not a secret), and `dotnet nuget push --skip-duplicate` uploads to `https://api.nuget.org/v3/index.json`. There is no stored NuGet API key. The nuget.org trusted publishing policy must stay registered for this repo and `release.yml`.
-
-A tag pushed on a commit whose `<Version>` does not match fails the version check and publishes nothing (the first `v0.1.1` push did this).
-
-Published versions (NuGet registration API): `0.1.0` (2026-06-18), `0.1.1` (2026-09-28), `0.1.2` (2026-10-21).
 
 ## Dependencies
 

@@ -21,7 +21,7 @@ All notable changes to this project are documented here. The format is based on
 
 ### Added
 - `Jobs.Quote` / `QuoteAsync`: read-only credit calculation via `POST /api/jobs/credits/quote`
-  (nothing reserved, no id returned), returning the new `CreditsQuote` model (`TotalCredits`,
+  (nothing reserved, no ID returned), returning the new `CreditsQuote` model (`TotalCredits`,
   `PageCount`, `DocumentCount`).
 - `ExtractionResultValue.ValueText` / `ValueNumber` (decimal string, full precision, plus
   `ValueNumberDecimal`) / `ValueBool` / `ValueDate`: the typed value the server derived from
@@ -37,7 +37,7 @@ All notable changes to this project are documented here. The format is based on
 ## [0.1.0] - 2026-06-18
 
 ### Added
-- Initial release of the Infersoft .NET SDK, targeting `net8.0` and `netstandard2.0`.
+- Initial release of the InferSoft .NET SDK, targeting `net8.0` and `netstandard2.0`.
 - `InfersoftClient` exposing synchronous and asynchronous method pairs, with OAuth2
   client-credentials authentication (lazy token fetch, caching, single-flight refresh, refresh on
   401), automatic retries with jittered backoff and idempotency keys, `Retry-After` handling, and

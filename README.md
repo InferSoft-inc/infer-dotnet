@@ -1,4 +1,4 @@
-# Infersoft .NET SDK
+# InferSoft .NET SDK
 
 A .NET SDK for the [InferSoft](https://platform.infersoft.com) document-processing REST API.
 
@@ -17,13 +17,13 @@ The package is [`Infersoft` on NuGet](https://www.nuget.org/packages/Infersoft):
 dotnet add package Infersoft
 ```
 
-## Authentication & configuration
+## Authentication and configuration
 
 The client authenticates with OAuth2 client credentials; create them for your organization at
 [platform.infersoft.com](https://platform.infersoft.com). Pass credentials explicitly or set the
-`INFERSOFT_*` environment variables (any unset credential or endpoint falls back to its env var):
+`INFERSOFT_*` environment variables (any unset credential or endpoint falls back to its environment variable):
 
-| Setting | Env var | Default |
+| Setting | Environment variable | Default |
 | --- | --- | --- |
 | `ClientId` | `INFERSOFT_CLIENT_ID` | none (required) |
 | `ClientSecret` | `INFERSOFT_CLIENT_SECRET` | none (required) |
@@ -32,7 +32,7 @@ The client authenticates with OAuth2 client credentials; create them for your or
 | `Audience` | `INFERSOFT_AUDIENCE` | `https://api.infersoft.com` |
 | `Scope` | (options only) | none (optional OAuth scopes) |
 
-`InfersoftClientOptions` also carries `Timeout` (30 s), `UploadTimeout` (5 min), `MaxRetries` (2),
+`InfersoftClientOptions` also carries `Timeout` (30 s), `UploadTimeout` (5 minutes), `MaxRetries` (2),
 `UploadMaxRetries` (falls back to `MaxRetries`), `LoggerFactory` and `Transport` (a custom
 `HttpMessageHandler`, mainly for tests).
 
@@ -86,7 +86,7 @@ foreach (var prompt in client.Prompts.Iterate())
 Runnable samples (extract, search and export, bulk import, download, concurrent reads) live in
 [examples/Infersoft.Examples](https://github.com/InferSoft-inc/infer-dotnet/tree/main/examples/Infersoft.Examples).
 
-## The sync + async surface, `CancellationToken`, and disposal
+## Sync and async members, `CancellationToken` and disposal
 
 Every operation has a **synchronous** member and an **asynchronous** `…Async` member:
 
@@ -139,9 +139,9 @@ Reusing a key with **different** parameters surfaces `UnprocessableEntityExcepti
 arrives while the original request is still running, the API answers with a transient 409 that the
 SDK waits out and retries. Read-only searches are never keyed; `Delete` and
 `ResolvePaths`/`EnsurePath` converge on retry without a key. `UploadMany` derives per-batch keys
-(`<base>-0000`, `-0001`, …) so a resumed bulk upload dedupes batch-by-batch.
+(`<base>-0000`, `-0001`, …) so a resumed bulk upload deduplicates batch-by-batch.
 
-## Retries, timeouts & rate limiting
+## Retries, timeouts and rate limiting
 
 - **Automatic retries** for transport errors and `408/429/500/502/503/504` on retry-eligible
   requests (default `MaxRetries = 2`), with exponential full-jitter backoff. A numeric
@@ -150,30 +150,30 @@ SDK waits out and retries. Read-only searches are never keyed; `Delete` and
   the SDK retries those within its budget and then throws `RateLimitException`. Tune `MaxRetries`
   (and `UploadMaxRetries` for presigned transfers) via `InfersoftClientOptions` or per call site
   with `WithOptions(...)`.
-- **Per-request timeout** (`Timeout`, default 30s; `UploadTimeout`, default 5 min) is applied via a
+- **Per-request timeout** (`Timeout`, default 30 s; `UploadTimeout`, default 5 minutes) is applied via a
   linked `CancellationTokenSource`; a timeout surfaces as `ApiTimeoutException`, while *your*
   `CancellationToken` firing surfaces as `OperationCanceledException`. OAuth token requests keep
-  their own 30s timeout.
+  their own 30 s timeout.
 
 ```csharp
 client.WithOptions(timeout: TimeSpan.FromMinutes(5), maxRetries: 0).Documents.BulkDelete(/* … */);
 ```
 
-## Waiting & polling
+## Waiting and polling
 
 `Jobs.Wait`, `Jobs.Run(wait: true)`, `Documents.WaitUntilReady`, and `Upload(wait: true)` poll to a
 terminal state every 2 seconds by default (`pollInterval:`). Budgets are **finite by default** (30
-min for jobs, 10 min for document readiness): a stuck resource raises `WaitTimeoutException`
-rather than hanging, and the server-side work is not cancelled. Pass
+minutes for jobs, 10 minutes for document readiness): a stuck resource raises `WaitTimeoutException`
+rather than hanging, and the server-side work is not canceled. Pass
 `maxWait: Timeout.InfiniteTimeSpan` to wait without a deadline. An unknown status (one a newer
 server added) is treated as non-terminal and logged once, so the wait stays diagnosable.
 
-## Uploads & downloads
+## Uploads and downloads
 
 - **`flatten`** controls the name sent per file. `true` (default) sends each basename and rejects
   duplicate basenames; `false` sends the path verbatim so your local layout is replicated in the app.
-- **`Upload`** takes up to `DocumentsResource.MaxBatchFiles` (100) files per call and sends an md5
-  of each file so the server can flag content it already has.
+- **`Upload`** takes up to `DocumentsResource.MaxBatchFiles` (100) files per call and sends an MD5
+  hash of each file so the server can flag content it already has.
 - **`onDuplicate`** reacts to a server-flagged content duplicate: `Allow` (default), `Notify` (log
   and upload), or `Block` (skip the upload and delete the placeholder; those files land on
   `result.Skipped`). Matches are always on `FileOutcome.Duplicates`.
