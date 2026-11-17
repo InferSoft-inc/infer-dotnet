@@ -54,6 +54,8 @@ Run one sample against a real account (names: `extract`, `search`, `bulk`, `down
 dotnet run --project examples/Infersoft.Examples -- extract
 ```
 
+The samples have fixed inputs in [`Program.cs`](../examples/Infersoft.Examples/Program.cs); edit them for the account first. `extract` uploads `invoice-1.pdf` and `invoice-2.pdf` from the working directory and extracts prompts 101 and 102, `search` reads prompts 101 and 102 for folder 7, `bulk` uploads `./pdfs/*.pdf` into the project `Imports`, `download` writes every document of the organization into `./downloads`, and `concurrent` reads documents 1, 2 and 3. `extract` and `bulk` create documents and spend credits.
+
 ## CI
 
 [`.github/workflows/ci.yml`](../.github/workflows/ci.yml) runs on every pull request and on pushes to `main`: restore, Release build of both target frameworks (warnings as errors, public-API analyzer), tests, and `dotnet format --verify-no-changes`. It needs no secrets. Actions are pinned to commit SHAs.
@@ -91,7 +93,7 @@ sequenceDiagram
    - **build & verify**: fails unless the tag without its `v` equals `<Version>`, reruns the CI gates with `ContinuousIntegrationBuild=true`, packs `src/Infersoft/Infersoft.csproj` (package plus `.snupkg` symbols, SourceLink embedded) and uploads it as the `nupkg` artifact.
    - **publish to NuGet**: runs in the GitHub environment `nuget`, which only accepts refs matching the tag pattern `v*`. It has `id-token: write`; `NuGet/login` exchanges the GitHub OpenID Connect (OIDC) token for a short-lived API key using the nuget.org account named by the `NUGET_USER` repository or organization variable (a variable, not a secret), and `dotnet nuget push --skip-duplicate` uploads to `https://api.nuget.org/v3/index.json`. There is no stored NuGet API key. The nuget.org trusted publishing policy must stay registered for this repo and `release.yml`.
 
-A tag pushed on a commit whose `<Version>` does not match fails the version check and publishes nothing (the first `v0.1.1` push did this).
+A tag pushed on a commit whose `<Version>` does not match fails the version check and publishes nothing.
 
 Published versions and their dates are on [nuget.org](https://www.nuget.org/packages/Infersoft) and in [CHANGELOG.md](../CHANGELOG.md).
 
@@ -109,7 +111,7 @@ Published versions and their dates are on [nuget.org](https://www.nuget.org/pack
 | [`src/Infersoft/Internal/Polling.cs`](../src/Infersoft/Internal/Polling.cs) | Waiters and default budgets (30 minutes for jobs, 10 minutes for documents, 2 s interval). |
 | [`src/Infersoft/Internal/ApiErrors.cs`](../src/Infersoft/Internal/ApiErrors.cs), [`Exceptions/`](../src/Infersoft/Exceptions/) | Status code to exception mapping and the exception types. |
 | [`src/Infersoft/Selectors.cs`](../src/Infersoft/Selectors.cs) | `Selector` factories (one per selector type in the spec, plus `Raw`) and `Selectors.Build`. |
-| [`src/Infersoft/PublicAPI.*.txt`](../src/Infersoft/PublicAPI.Unshipped.txt) | Public API baseline for `Microsoft.CodeAnalysis.PublicApiAnalyzers`. Every public member must be listed or the build fails (warnings are errors). All entries currently live in `PublicAPI.Unshipped.txt`; `PublicAPI.Shipped.txt` only holds `#nullable enable`. |
+| [`src/Infersoft/PublicAPI.*.txt`](../src/Infersoft/PublicAPI.Unshipped.txt) | Public API baseline for `Microsoft.CodeAnalysis.PublicApiAnalyzers`. Every public member must be listed or the build fails (warnings are errors). Add new members to `PublicAPI.Unshipped.txt`. |
 | [`tests/Infersoft.Tests/`](../tests/Infersoft.Tests/) | xUnit tests on `net8.0`. HTTP goes through a fake `HttpMessageHandler` passed as `Transport`, so no credentials or network are needed. |
 | [`examples/Infersoft.Examples/`](../examples/Infersoft.Examples/) | Sample console app in the solution, so CI compiles it; running it needs real credentials. |
 

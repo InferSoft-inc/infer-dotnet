@@ -62,7 +62,8 @@ using Infersoft;
 
 using var client = new InfersoftClient("id", "secret");
 
-// Upload PDFs, run the extractor with two prompts, and get the values back:
+// Upload PDFs, run the extractor with two prompts, and get the values back.
+// 101 and 102 stand for your prompt IDs; list them as shown below.
 ExtractResult result = await client.ExtractAsync(
     files: new[] { "invoice-1.pdf", "invoice-2.pdf" },
     prompts: new long[] { 101, 102 });
