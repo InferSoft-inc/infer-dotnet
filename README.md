@@ -138,9 +138,13 @@ client.Documents.Upload(files, idempotencyKey: key);
 
 Reusing a key with **different** parameters surfaces `UnprocessableEntityException`. If a retry
 arrives while the original request is still running, the API answers with a transient 409 that the
-SDK waits out and retries. Read-only searches are never keyed; `Delete` and
+SDK retries within `MaxRetries` (default 2); once that budget is spent it throws `ConflictException`
+and the caller retries later with the same key. Read-only searches are never keyed; `Delete` and
 `ResolvePaths`/`EnsurePath` converge on retry without a key. `UploadMany` derives per-batch keys
-(`<base>-0000`, `-0001`, …) so a resumed bulk upload deduplicates batch-by-batch.
+(`<base>-0000`, `-0001`, …) numbered from zero on every call, so a resumed bulk upload deduplicates
+batch-by-batch only when it retries the complete, unchanged file list in the same order with the same
+`batchSize`; resuming with only the unfinished files reuses earlier batches' keys and is rejected
+(`UploadManyException` wrapping `UnprocessableEntityException`).
 
 ## Retries, timeouts and rate limiting
 
@@ -152,7 +156,8 @@ SDK waits out and retries. Read-only searches are never keyed; `Delete` and
   (and `UploadMaxRetries` for presigned transfers) via `InfersoftClientOptions` or per call site
   with `WithOptions(...)`.
 - **Per-request timeout** (`Timeout`, default 30 s; `UploadTimeout`, default 5 minutes) is applied via a
-  linked `CancellationTokenSource`; a timeout surfaces as `ApiTimeoutException`, while *your*
+  linked `CancellationTokenSource`; a timeout surfaces as `ApiTimeoutException` (presigned uploads
+  and downloads throw `UploadTransferException` and `DownloadTransferException` instead), while *your*
   `CancellationToken` firing surfaces as `OperationCanceledException`. OAuth token requests keep
   their own 30 s timeout.
 

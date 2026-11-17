@@ -84,9 +84,10 @@ sequenceDiagram
 ```
 
 1. In a PR to `main`, set `<Version>` in `Directory.Build.props` and move the `## [Unreleased]` notes in CHANGELOG.md under `## [X.Y.Z] - <date>`. Merge it.
-2. Tag the merge commit and push the tag:
+2. Tag the merge commit by its SHA (a bare `git tag` would tag whatever is checked out locally) and push the tag:
    ```bash
-   git tag vX.Y.Z
+   git fetch origin
+   git tag vX.Y.Z <merge commit SHA>
    git push origin vX.Y.Z
    ```
 3. [`.github/workflows/release.yml`](../.github/workflows/release.yml) builds and publishes:

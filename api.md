@@ -50,7 +50,9 @@ Conventions:
   (**write/composite**): `POST /api/uploads` (plans the batch, at most `MaxBatchFiles`, which is 100), then one
   unauthenticated `PUT` per file to its CloudFront-signed URL; with `wait: true`, polled
   `POST /api/documents/search` until every document is `ready`. `onDuplicate: OnDuplicate.Block`
-  also sends `DELETE /api/documents/{id}` for each skipped placeholder.
+  also sends `DELETE /api/documents/{id}` for each skipped placeholder. `UploadResult.DocumentIds` still
+  includes those deleted placeholders, so with `wait: true` a skipped file makes the wait run out
+  `maxWait` and throw `WaitTimeoutException`.
 - `UploadMany(files, …) -> UploadResult` / `UploadManyFromDirectory(directory, searchPattern="*", …) -> UploadResult`
   (**write/composite**): bulk uploads of any size; one `Upload` batch per `batchSize` files with
   deterministic per-batch keys derived from the base `idempotencyKey`; `onBatch` progress callback.

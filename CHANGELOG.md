@@ -25,7 +25,8 @@ All notable changes to this project are documented here. The format is based on
   `PageCount`, `DocumentCount`).
 - `ExtractionResultValue.ValueText` / `ValueNumber` (decimal string, full precision, plus
   `ValueNumberDecimal`) / `ValueBool` / `ValueDate`: the typed value the server derived from
-  `RawValue`, exactly one set per item, and `Value` returning whichever is set (falling back to the
+  `RawValue`, at most one set per item (none when the raw value could not be typed; `RawValue` still
+  carries the text), and `Value` returning whichever is set (falling back to the
   deprecated `ParsedValue` against older servers).
 - `PromptMeta.Example`, and `DisplayType` / `GroupName` on `PromptMeta` and `ExtractionResultValue`.
 - `Selector.FolderSubtree(folderId)` and `Selector.HasClassification()`.
