@@ -19,8 +19,8 @@ dotnet add package Infersoft
 
 ## Authentication and configuration
 
-The client authenticates with OAuth2 client credentials; create them for your organization at
-[platform.infersoft.com](https://platform.infersoft.com). Pass credentials explicitly or set the
+The client authenticates with OAuth2 client credentials (a client ID and secret) that InferSoft
+issues for your organization. Pass credentials explicitly or set the
 `INFERSOFT_*` environment variables (any unset credential or endpoint falls back to its environment variable):
 
 | Setting | Environment variable | Default |
