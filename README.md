@@ -99,7 +99,7 @@ DocumentSummary same = await client.Documents.GetAsync(42);      // async
 - **Prefer the async members in servers, UI apps, and anything concurrent.** The sync members are
   for scripts, console tools, and synchronous call sites; on .NET 8 they perform real synchronous
   I/O (no thread parked on a `Task`), while on `netstandard2.0` they bridge over the async path.
-- **Every async member accepts a trailing `CancellationToken`.** List iterators are
+- **Every async member except `DisposeAsync` accepts a trailing `CancellationToken`.** List iterators are
   `IAsyncEnumerable<T>`; cancel them with `await foreach (var x in client.Documents.IterateAsync().WithCancellation(ct))`.
 - **One `InfersoftClient` holds pooled connections for its lifetime**: create it once and reuse
   it; dispose it when done (`using`, or `await using` for `DisposeAsync`). `WithOptions(...)` copies
@@ -177,7 +177,8 @@ server added) is treated as non-terminal and logged once, so the wait stays diag
 ## Uploads and downloads
 
 - **`flatten`** controls the name sent per file. `true` (default) sends each basename and rejects
-  duplicate basenames; `false` sends the path verbatim so your local layout is replicated in the app.
+  duplicate basenames; `false` sends the path as given (relative to the directory for
+  `UploadManyFromDirectory`) so your local layout is replicated in the app.
 - **`Upload`** takes up to `DocumentsResource.MaxBatchFiles` (100) files per call and sends an MD5
   hash of each file so the server can flag content it already has.
 - **`onDuplicate`** reacts to a server-flagged content duplicate: `Allow` (default), `Notify` (log

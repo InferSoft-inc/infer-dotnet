@@ -54,7 +54,7 @@ Run one sample against a real account (names: `extract`, `search`, `bulk`, `down
 dotnet run --project examples/Infersoft.Examples -- extract
 ```
 
-The samples have fixed inputs in [`Program.cs`](../examples/Infersoft.Examples/Program.cs); edit them for the account first. `extract` uploads `invoice-1.pdf` and `invoice-2.pdf` from the working directory and extracts prompts 101 and 102, `search` reads prompts 101 and 102 for folder 7, `bulk` uploads `./pdfs/*.pdf` into the project `Imports`, `download` writes every document of the organization into `./downloads`, and `concurrent` reads documents 1, 2 and 3. `extract` and `bulk` create documents and spend credits.
+The samples have fixed inputs in [`Program.cs`](../examples/Infersoft.Examples/Program.cs); edit them for the account first. `extract` uploads `invoice-1.pdf` and `invoice-2.pdf` from the working directory and extracts prompts 101 and 102, `search` reads prompts 101 and 102 for folder 7, `bulk` uploads every `*.pdf` under `./pdfs` (subfolders included) into the project `Imports`, `download` writes every document of the organization into `./downloads`, and `concurrent` reads documents 1, 2 and 3. `extract` and `bulk` create documents, and `extract` runs a job that spends credits.
 
 ## CI
 
@@ -106,7 +106,7 @@ Published versions and their dates are on [nuget.org](https://www.nuget.org/pack
 | [`src/Infersoft/InfersoftClient.Extract.cs`](../src/Infersoft/InfersoftClient.Extract.cs) | The `Extract` / `ExtractAsync` pipeline. |
 | [`src/Infersoft/InfersoftClientOptions.cs`](../src/Infersoft/InfersoftClientOptions.cs) | Public options and their defaults. |
 | [`src/Infersoft/Resources/`](../src/Infersoft/Resources/) | `DocumentsResource` (uploads in `DocumentsResource.Uploads.cs`), `FoldersResource`, `ProjectsResource`, `PromptsResource`, `JobsResource`. Every member has a sync and an `…Async` form. |
-| [`src/Infersoft/Models/`](../src/Infersoft/Models/) | Response models. All derive from `InfersoftModel`, whose `[JsonExtensionData] AdditionalData` keeps unknown server fields. Status and data-type enums are extensible (`ExtensibleEnumConverter`). |
+| [`src/Infersoft/Models/`](../src/Infersoft/Models/) | Response models, all derived from `InfersoftModel`, whose `[JsonExtensionData] AdditionalData` keeps unknown server fields. Status and data-type enums are extensible (`ExtensibleEnumConverter`). Also the SDK's own result types (`UploadResult`, `FileOutcome`, `ExtractResult`), which are not server models. |
 | [`src/Infersoft/Internal/Requests/`](../src/Infersoft/Internal/Requests/) | Request body types. JSON uses `JsonNamingPolicy.SnakeCaseLower` ([`Internal/InfersoftJson.cs`](../src/Infersoft/Internal/InfersoftJson.cs)). |
 | [`src/Infersoft/Internal/RetryPolicy.cs`](../src/Infersoft/Internal/RetryPolicy.cs) | Retry statuses, backoff, `Retry-After` handling, request-in-progress 409 detection. |
 | [`src/Infersoft/Internal/Polling.cs`](../src/Infersoft/Internal/Polling.cs) | Waiters and default budgets (30 minutes for jobs, 10 minutes for documents, 2 s interval). |

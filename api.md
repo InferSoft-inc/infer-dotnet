@@ -6,8 +6,9 @@ hover); this file is the map of what exists and what it does on the wire.
 
 **Every method has a synchronous and an asynchronous (`…Async`) member** with identical inputs
 and semantics; only the `…Async` form is awaited (and returns `Task<T>` / `IAsyncEnumerable<T>`).
-To keep this terse, the pairs are listed once. The one exception is `WithOptions`, a plain method
-that returns a new `InfersoftClient` directly.
+To keep this terse, the pairs are listed once. The exceptions are `WithOptions`, a plain method
+that returns a new `InfersoftClient` directly, and the `Selector` / `Selectors` factories, which
+build values locally.
 
 Conventions:
 
