@@ -54,7 +54,7 @@ Conventions:
   `POST /api/documents/search` until every document is `ready`. `onDuplicate: OnDuplicate.Block`
   also sends `DELETE /api/documents/{id}` for each skipped placeholder. `UploadResult.DocumentIds` still
   includes those deleted placeholders, so with `wait: true` a skipped file makes the wait run out
-  `maxWait` and throw `WaitTimeoutException`.
+  `maxWait` and throw `WaitTimeoutException` (with a `maxWait` of zero or less it polls until cancelled).
 - `UploadMany(files, …) -> UploadResult` / `UploadManyFromDirectory(directory, searchPattern="*", …) -> UploadResult`
   (**write/composite**): bulk uploads of any size; one `Upload` batch per `batchSize` files with
   deterministic per-batch keys derived from the base `idempotencyKey`; `onBatch` progress callback.

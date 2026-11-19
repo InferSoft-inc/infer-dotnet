@@ -128,7 +128,8 @@ missing local paths, `IOException` when a download target already exists).
 
 Every member with an `idempotencyKey:` parameter sends an `Idempotency-Key` header (auto-generated
 per call) and is retried safely on transient failures: the server records the first response and
-replays it to a retry carrying the same key, so a network blip never creates duplicates. Pass
+replays it to a retry carrying the same key, so a network blip never creates duplicates (if the API
+cannot reach its idempotency store, it runs the request without that protection). Pass
 `idempotencyKey:` to control the key for exactly-once across process restarts:
 
 ```csharp
@@ -144,7 +145,8 @@ and the caller retries later with the same key. Read-only searches are never key
 (`<base>-0000`, `-0001`, …) numbered from zero on every call, so a resumed bulk upload deduplicates
 batch-by-batch only when it retries the complete, unchanged file list in the same order with the same
 `batchSize`; resuming with only the unfinished files reuses earlier batches' keys and is rejected
-(`UploadManyException` wrapping `UnprocessableEntityException`).
+(`UploadManyException` wrapping `UnprocessableEntityException`). The API replays a batch's upload
+plan only until its signed upload URLs expire, so a resume after that plans those batches again.
 
 ## Retries, timeouts and rate limiting
 
