@@ -93,6 +93,29 @@ public class ModelTests
     }
 
     [Fact]
+    public void IsProcessing_parses_and_pending_prompts_are_left_out_of_values()
+    {
+        const string json =
+            "{\"id\":1,\"organization_id\":\"o\",\"name\":\"d.pdf\",\"status\":\"ready\",\"is_valid\":true," +
+            "\"created_at\":\"2026-01-02T03:04:05Z\",\"has_active_workflow\":true,\"extraction_results\":[" +
+            "{\"prompt_id\":1,\"value\":{\"name\":\"Acres\",\"data_type\":\"Number\",\"is_processing\":true}}," +
+            "{\"prompt_id\":2,\"value\":{\"data_type\":\"String\",\"value_text\":\"Acme\",\"raw_value\":\"Acme\",\"is_processing\":true}}," +
+            "{\"prompt_id\":3,\"value\":{\"data_type\":\"String\",\"value_text\":\"Beta\",\"raw_value\":\"Beta\"}}]}";
+
+        var doc = JsonSerializer.Deserialize<DocumentSummary>(json, InfersoftJson.Options)!;
+
+        Assert.True(doc.Extractions[1].IsProcessing);
+        Assert.Null(doc.Extractions[1].Value);
+        Assert.True(doc.Extractions[2].IsProcessing);
+        Assert.False(doc.Extractions[3].IsProcessing);
+
+        var values = ExtractionFlattener.Flatten(doc, ExtractionKey.PromptId);
+        Assert.False(values.ContainsKey(1L));
+        Assert.Equal("Acme", values[2L]);
+        Assert.Equal("Beta", values[3L]);
+    }
+
+    [Fact]
     public void Job_uses_the_createdAt_camelCase_alias()
     {
         const string json =

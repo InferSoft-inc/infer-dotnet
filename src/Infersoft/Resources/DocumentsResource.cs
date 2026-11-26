@@ -132,6 +132,7 @@ public sealed partial class DocumentsResource
     /// is the typed <see cref="ExtractionResultValue.Value"/>: a <see cref="string"/>, <see cref="bool"/>,
     /// <see cref="System.DateTime"/>, or for Number a <see cref="decimal"/> when the server's decimal string
     /// parses, otherwise that string unchanged; <c>null</c> when the raw text could not be typed.
+    /// Prompts a running workflow has not produced a result for yet are left out.
     /// </summary>
     public IReadOnlyDictionary<long, IReadOnlyDictionary<object, object?>> GetValues(
         IEnumerable<long> prompts,
