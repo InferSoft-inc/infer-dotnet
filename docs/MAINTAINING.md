@@ -29,7 +29,7 @@ The interactive API docs are at [api.infersoft.com/documentation](https://api.in
 
 ## Local development
 
-These are the commands CI runs (requires the .NET 8 SDK from `global.json`):
+These are the commands CI runs (requires the .NET 10 SDK from `global.json`, plus the .NET 8 runtime to run the tests):
 
 ```bash
 dotnet restore
@@ -106,7 +106,7 @@ Published versions and their dates are on [nuget.org](https://www.nuget.org/pack
 | [`tests/Infersoft.Tests/`](../tests/Infersoft.Tests/) | xUnit tests on `net8.0`. HTTP goes through a fake `HttpMessageHandler` passed as `Transport`, so no credentials or network are needed. |
 | [`examples/Infersoft.Examples/`](../examples/Infersoft.Examples/) | Sample console app in the solution, so CI compiles it; running it needs real credentials. |
 
-Shared build settings are in [`Directory.Build.props`](../Directory.Build.props): nullable enabled, `TreatWarningsAsErrors`, `EnforceCodeStyleInBuild`, `AnalysisMode=Recommended`, and the package `<Version>`. The library targets `net8.0` and `netstandard2.0`; the sync members use real synchronous `HttpClient.Send` under `NET8_0_OR_GREATER` and bridge over the async path on `netstandard2.0`. [`global.json`](../global.json) pins the SDK to `8.0.422` with `rollForward: latestPatch`.
+Shared build settings are in [`Directory.Build.props`](../Directory.Build.props): nullable enabled, `TreatWarningsAsErrors`, `EnforceCodeStyleInBuild`, `AnalysisMode=Recommended`, and the package `<Version>`. The library targets `net8.0` and `netstandard2.0`; the sync members use real synchronous `HttpClient.Send` under `NET8_0_OR_GREATER` and bridge over the async path on `netstandard2.0`. [`global.json`](../global.json) pins the SDK to `10.0.404` with `rollForward: latestPatch`; the SDK version is independent of the target frameworks.
 
 ## How the SDK maps to the REST API
 
